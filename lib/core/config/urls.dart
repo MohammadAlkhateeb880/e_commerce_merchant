@@ -1,5 +1,5 @@
 class Urls {
-  static const String baseUrl = 'http://192.168.1.107:3000/user/';
+  static const String baseUrl = 'http://192.168.250.175:3000/user/';
   //static const String baseUrl = 'http://192.168.98.175:3000/user/';
 
 

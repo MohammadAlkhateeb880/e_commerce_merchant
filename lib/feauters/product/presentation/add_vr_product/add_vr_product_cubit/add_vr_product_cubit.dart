@@ -29,7 +29,7 @@ class AddVRProductCubit extends Cubit<AddVRProductStates> {
     DioHelper.postData(
       url: Urls.addVrImageProduct + id.toString(),
       data: formData,
-      contentType: "multipart/form-data",
+      contentType: 'multipart/form-data; boundary=${formData.boundary}',
       token: "Bearer " +
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDMxNzBjOTFkMzI1NmM5YzdhYjA1NDAiLCJyb2xlIjoyLCJpYXQiOjE2ODA5NjE3Mzd9.ZQ0S6vT_wHH0w0kspiaHz0c4AT9_SaJlj3WkJ2cFc3g",
     ).then((value) {
