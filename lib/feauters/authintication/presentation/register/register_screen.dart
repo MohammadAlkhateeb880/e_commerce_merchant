@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:merchant_app/core/resources/fonts_manager.dart';
@@ -9,9 +8,9 @@ import 'package:merchant_app/feauters/authintication/presentation/register/mail_
 import 'package:merchant_app/feauters/authintication/presentation/register/register_cubit/register_cubit.dart';
 import 'package:merchant_app/feauters/authintication/presentation/register/register_cubit/register_states.dart';
 
-import 'package:image_picker/image_picker.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import '../../../../core/components/button.dart';
+import '../../../../core/components/get_photo_from_gallery.dart';
 import '../../../../core/components/text_button.dart';
 import '../../../../core/components/text_form_field.dart';
 import '../../../../core/functions.dart';
@@ -392,12 +391,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<File> takePhoto() async {
-    final myFile = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 50,
-        maxHeight: 500.0,
-        maxWidth: 500.0);
-    return File(myFile!.path);
-  }
+
 }

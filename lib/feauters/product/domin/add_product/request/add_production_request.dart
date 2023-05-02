@@ -1,14 +1,14 @@
-class AddProductRequest {
+class AddProductionRequest {
   String? name;
   String? mainCategorie;
   String? descreption;
   String? manufacturingMaterial;
-  int? guarantee;
+  String? guarantee;
   List<Class>? classes;
 
-  AddProductRequest({this.name, this.mainCategorie, this.descreption, this.manufacturingMaterial, this.guarantee, this.classes});
+  AddProductionRequest({this.name, this.mainCategorie, this.descreption, this.manufacturingMaterial, this.guarantee, this.classes});
 
-  AddProductRequest.fromJson(Map<String, dynamic> json) {
+  AddProductionRequest.fromJson(Map<String, dynamic> json) {
   name = json['name'];
   mainCategorie = json['mainCategorie'];
   descreption = json['descreption'];
@@ -38,7 +38,7 @@ class Class {
   String? width;
   String? length;
   String? size;
-  int? price;
+  String? price;
   bool? sallableInPoints;
   List<Group>? group;
 

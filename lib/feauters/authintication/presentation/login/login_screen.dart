@@ -16,7 +16,7 @@ import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/fonts_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/resources/values_manager.dart';
-import '../home/home_screen.dart';
+import '../../../home/home_screen.dart';
 import '../register/register_screen.dart';
 import 'login_cubit/login_states.dart';
 

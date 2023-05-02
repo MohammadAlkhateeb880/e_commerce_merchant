@@ -1,11 +1,11 @@
-class AddProductResponse {
+class AddImageProductResponse {
   String? message;
   bool? status;
   Data? data;
 
-  AddProductResponse({this.message, this.status, this.data});
+  AddImageProductResponse({this.message, this.status, this.data});
 
-  AddProductResponse.fromJson(Map<String, dynamic> json) {
+  AddImageProductResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -29,7 +29,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     product =
-    json['product'] != null ? Product.fromJson(json['product']) : null;
+        json['product'] != null ? Product.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -42,26 +42,26 @@ class Data {
 }
 
 class Product {
-  String? name;
-  String? descreption;
-  String? mainCategorie;
   String? sId;
+  String? name;
+  List<String>? gallery;
+  String? mainImage;
 
-  Product({this.name, this.descreption, this.mainCategorie, this.sId});
+  Product({this.sId, this.name, this.gallery, this.mainImage});
 
   Product.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    descreption = json['descreption'];
-    mainCategorie = json['mainCategorie'];
     sId = json['_id'];
+    name = json['name'];
+    gallery = json['gallery'].cast<String>();
+    mainImage = json['mainImage'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['descreption'] = descreption;
-    data['mainCategorie'] = mainCategorie;
     data['_id'] = sId;
+    data['name'] = name;
+    data['gallery'] = gallery;
+    data['mainImage'] = mainImage;
     return data;
   }
 }

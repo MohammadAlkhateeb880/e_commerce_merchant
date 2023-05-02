@@ -11,10 +11,10 @@ import '../../../../core/functions.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/resources/values_manager.dart';
+import '../../../home/home_screen.dart';
 import '../../domin/request/regester_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../home/home_screen.dart';
 
 class MailVerificationScreen extends StatefulWidget {
   MailVerificationScreen({Key? key, required this.registerRequest})
@@ -38,7 +38,7 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
       body: BlocConsumer<RegisterCubit, RegisterStates>(
           listener: (context, state) {
         if (state is RegisterDoneState){
-          if (state.registerResponse.status == 'success') {
+          if (state.registerResponse.status!) {
             showToast(text: 'Register Success', state: ToastStates.SUCCESS);
             CacheHelper.saveData(
                     key: 'token', value: state.registerResponse.data?.token)
@@ -48,7 +48,7 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
             });
           } else {
             showToast(
-                text: state.registerResponse.message??"no Toast",
+                text: state.registerResponse.message!,
                 state: ToastStates.ERROR);
           }
         }
@@ -129,7 +129,7 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
                           }
                         },
                         text: 'Register Now',
-                        isLoading: true,
+                        isLoading: state is RegisterLoadingState,
                       ),
                     ],
                   )),

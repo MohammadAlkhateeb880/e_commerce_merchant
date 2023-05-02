@@ -66,9 +66,11 @@ class DioHelper {
     Map<String, dynamic>? query,
     required var data,
     String? token,
+    String? contentType,
   }) async {
     dio.options.headers = {
       AUTHORIZATION: token ?? '',
+      CONTENT_TYPE: contentType ?? APPLICATION_JSON,
     };
     return dio.post(
       url,

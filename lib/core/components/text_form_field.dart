@@ -20,6 +20,8 @@ class TFF extends StatelessWidget {
     this.onTap,
     this.suffixPressed,
     this.readOnly=false,
+    this.height,
+    this.maxLines,
 
   });
 
@@ -35,14 +37,18 @@ class TFF extends StatelessWidget {
   Function? suffixPressed;
   Function? onTap;
   bool readOnly;
+  double? height;
+  int? maxLines;
 
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines ?? 1,
       readOnly: readOnly,
       controller: controller,
       decoration: InputDecoration(
+        contentPadding:  EdgeInsets.symmetric(vertical:height!=null?height!: 0.0),
         label: Text(label),
         hintText: label,
         prefixIcon: Icon(
