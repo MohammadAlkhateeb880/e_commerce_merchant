@@ -109,7 +109,11 @@ class _AddDeliveryAreasScreenState extends State<AddDeliveryAreasScreen> {
                   keyboardType: TextInputType.phone,
                   label: 'delivery Price',
                   prefixIcon: Icons.attach_money_outlined,
-                  validator: (value) {}),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Delivery Price Must not be empty';
+                    }
+                  }),
               const SizedBox(
                 height: AppSize.s28,
               ),

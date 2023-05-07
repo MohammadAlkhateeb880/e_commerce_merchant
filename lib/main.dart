@@ -11,7 +11,10 @@ import 'core/resources/theme_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feauters/authintication/presentation/register/register_cubit/register_cubit.dart';
+import 'feauters/product/presentation/add_delivery_areas/add_delivery_areas_screen.dart';
+import 'feauters/product/presentation/add_offer_to_product/add_offer_to_product_screen.dart';
 import 'feauters/product/presentation/add_product/add_product_screen.dart';
+import 'feauters/product/presentation/add_vr_product/add_vr_product_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +43,7 @@ class MyApp extends StatelessWidget {
         title: 'Merchant App',
         theme: getApplicationTheme(),
         // showSemanticsDebugger: true,
-        home: const AddProductScreen(),
+        home: const AddVRProductScreen(),
       ),
     );
   }
@@ -51,7 +54,61 @@ class MyApp extends StatelessWidget {
     flutter channel stable
     flutter upgrade
     flutter pub upgrade
+    // Questions :
+    in add dialog
+    cheng color of container
 
  */
 
 // FilePicker   [.jpg, .png, .] .................
+/*
+import 'package:flutter/material.dart';
+
+class Person {
+  final String name;
+  final int age;
+  final String address;
+
+  Person({
+    required this.name,
+    required this.age,
+    required this.address,
+  });
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Person> persons = [
+    Person(name: 'John', age: 25, address: '123 Main St'),
+    Person(name: 'Jane', age: 30, address: '456 Oak St'),
+    Person(name: 'Bob', age: 40, address: '789 Maple St'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Person List'),
+      ),
+      body: ListView.builder(
+        itemCount: persons.length,
+        itemBuilder: (context, index) {
+          final person = persons[index];
+          return ListTile(
+            title: Text(person.name),
+            subtitle: Text('Age ${person.age}, Address: ${person.address}'),
+          );
+        },
+      ),
+    );
+  }
+}
+
+*
+* */

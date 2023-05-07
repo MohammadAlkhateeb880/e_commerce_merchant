@@ -3,7 +3,8 @@ import 'package:merchant_app/core/resources/values_manager.dart';
 import 'package:merchant_app/feauters/product/presentation/add_vr_product/add_vr_product_cubit/add_vr_product_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/components/button.dart';
-
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 class AddVRProductScreen extends StatefulWidget {
   const AddVRProductScreen({Key? key}) : super(key: key);
 
@@ -25,14 +26,13 @@ class _AddVRProductScreenState extends State<AddVRProductScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text('ADD VR'),
+            title: const Text('ADD VR'),
           ),
           body: SafeArea(
             child: Column(
               children: [
                 ElevatedButton(
                   onPressed: () async {
-
                     fileVRPath= await pickVR();
                     setState(() {});
                   },
@@ -48,7 +48,7 @@ class _AddVRProductScreenState extends State<AddVRProductScreen> {
                 ),
                 DefaultButton(text: 'Send VR', function: ()  {
                   if(fileVRPath!=null){
-                    cubit.addVRProduct(fileVRPath: fileVRPath, id: '64501aa39ce58699c81d4e9b');
+                    cubit.addVRProduct(fileVRPath: fileVRPath, id: '6456666fb99083c1d94e8c4e');
                   }
                 }),
               ],
@@ -59,21 +59,23 @@ class _AddVRProductScreenState extends State<AddVRProductScreen> {
     );
   }
 
- Future<String?> pickVR() async {
-    // final result = await FilePicker.platform.pickFiles();
-    //
-    // if (result != null) {
-    //   // The user picked a file.
-    //   final file = result.files.first;
-    //   print(file.name);
-    //   print(file.bytes);
-    //   print(file.extension);
-    //   print(file.path);
-    //   print(file.size);
-    //   return  file.path;
-    //   // Do something with the file, e.g. read its contents.
-    // }
+  Future<String?> pickVR() async {
+    final result = await FilePicker.platform.pickFiles();
 
+    if (result != null) {
+      // The user picked a file.
+      final file = result.files.first;
+      print(file.name);
+      print(file.bytes);
+      print(file.extension);
+      print(file.path);
+      print(file.size);
+      return file.path;
+      // Do something with the file, e.g. read its contents.
+    } else {
+      // The user canceled the picker.
+      return null;
+    }
   }
 
   // void _onARCoreViewCreated(ArCoreController controller) {

@@ -1,5 +1,6 @@
 
-import '../../../domin/add_product/response/add_production_Response.dart';
+import '../../../domin/add_product/response/add_production_response.dart';
+import '../../../domin/add_product/response/get_categories_response.dart';
 
 abstract class AddProductionStates {}
 
@@ -17,4 +18,17 @@ class AddProductionErrorState extends AddProductionStates {
   final err;
 
   AddProductionErrorState(this.err);
+}
+
+class GetCategoriesLoadingState extends AddProductionStates {}
+
+class GetCategoriesDoneState extends AddProductionStates {
+
+  GetCategoriesDoneState();
+}
+
+class GetCategoriesErrorState extends AddProductionStates {
+  final err;
+
+  GetCategoriesErrorState(this.err);
 }

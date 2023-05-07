@@ -36,14 +36,11 @@ class AddImageProductCubit extends Cubit<AddImageProductStates> {
           filename: 'mainImage'),
       'gallery': multipartFiles,
     });
-    print("++++++++++++++++++++++++++++");
-    print(formData.fields);
-    print(formData.files);
 
     DioHelper.postData(
       url: Urls.addImageProduct + id.toString(),
       data: formData,
-      contentType: "multipart/form-data",
+      //contentType: "multipart/form-data",
       token: "Bearer " +
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDMxNzBjOTFkMzI1NmM5YzdhYjA1NDAiLCJyb2xlIjoyLCJpYXQiOjE2ODA5NjE3Mzd9.ZQ0S6vT_wHH0w0kspiaHz0c4AT9_SaJlj3WkJ2cFc3g",
     ).then((value) {
