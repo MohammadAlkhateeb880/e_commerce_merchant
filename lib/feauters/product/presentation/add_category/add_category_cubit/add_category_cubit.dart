@@ -65,8 +65,8 @@ addCategory({
   };
   var request = http.MultipartRequest('POST', Uri.parse(Urls.addCategories));
   request.fields.addAll({
-    'arName': 'testAr2',
-    'enName': 'testEn2'
+    'arName': arName,
+    'enName': enName,
   });
   request.files.add(await http.MultipartFile.fromPath('ImageOfCate',imageOfCate.path));
   request.headers.addAll(headers);
