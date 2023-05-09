@@ -7,13 +7,15 @@ import 'core/data/network/local/cache_helper.dart';
 import 'core/data/network/remote/dio_helper.dart';
 import 'core/resources/theme_manager.dart';
 
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feauters/authintication/presentation/register/register_cubit/register_cubit.dart';
+import 'feauters/home/home_screen.dart';
+import 'feauters/product/presentation/add_category/add_category_screen.dart';
 import 'feauters/product/presentation/add_delivery_areas/add_delivery_areas_screen.dart';
 import 'feauters/product/presentation/add_offer_to_product/add_offer_to_product_screen.dart';
 import 'feauters/product/presentation/add_product/add_product_screen.dart';
+import 'feauters/product/presentation/add_vr_product/add_vr_product_cubit/upload_file_page.dart';
 import 'feauters/product/presentation/add_vr_product/add_vr_product_screen.dart';
 
 void main() async {
@@ -26,9 +28,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp
-
-  ({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -43,11 +43,10 @@ class MyApp extends StatelessWidget {
         title: 'Merchant App',
         theme: getApplicationTheme(),
         // showSemanticsDebugger: true,
-        home: const AddVRProductScreen(),
+        home:  const AddCategoryScreen(),
       ),
     );
   }
-
 }
 
 /**
@@ -55,8 +54,7 @@ class MyApp extends StatelessWidget {
     flutter upgrade
     flutter pub upgrade
     // Questions :
-    in add dialog
-    cheng color of container
+
 
  */
 

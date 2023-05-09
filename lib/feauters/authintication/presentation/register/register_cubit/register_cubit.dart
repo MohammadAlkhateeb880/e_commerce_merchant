@@ -4,10 +4,10 @@ import 'package:merchant_app/feauters/authintication/domin/response/register_res
 import 'package:merchant_app/feauters/authintication/presentation/register/register_cubit/register_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:dio/dio.dart';
 
 import '../../../../../core/data/network/remote/dio_helper.dart';
 import '../../../domin/response/mail_verification_respons.dart';
+import 'package:dio/dio.dart';
 
 class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInit());
@@ -27,6 +27,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
           ),
         )).then((value) {
       if (value.data['status']) {
+        print("++++++++++++++++++++++++++++++++++++");
         registerResponse = RegisterResponse.fromJson(value.data);
         emit(RegisterDoneState(registerResponse));
       }
@@ -39,7 +40,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
 //********************* sendCode2email ****************************
 
   MailVerificationResponse mailVerificationResponse =
-      MailVerificationResponse(pin: "15151", message: "mmmmmmm", status: false);
+      MailVerificationResponse();
 
   sendCode2email({required String email}) async {
     emit(MailVerificationLoadingState());

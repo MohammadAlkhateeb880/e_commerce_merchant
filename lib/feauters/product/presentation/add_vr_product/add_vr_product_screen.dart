@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
+import 'package:merchant_app/feauters/product/presentation/add_image_product/add_image_product_screen.dart';
 import 'package:merchant_app/feauters/product/presentation/add_vr_product/add_vr_product_cubit/add_vr_product_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/components/button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
+
+import '../../../../core/functions.dart';
 class AddVRProductScreen extends StatefulWidget {
   const AddVRProductScreen({Key? key}) : super(key: key);
 
@@ -48,7 +51,8 @@ class _AddVRProductScreenState extends State<AddVRProductScreen> {
                 ),
                 DefaultButton(text: 'Send VR', function: ()  {
                   if(fileVRPath!=null){
-                    cubit.addVRProduct(fileVRPath: fileVRPath, id: '6456666fb99083c1d94e8c4e');
+                    cubit.addVRProduct(fileVRPath: fileVRPath, id: '6459e9d77cbd0644ea856a77');
+                    navigateTo(context,AddImageProductScreen());
                   }
                 }),
               ],

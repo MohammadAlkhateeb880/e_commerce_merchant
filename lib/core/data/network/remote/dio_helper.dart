@@ -19,19 +19,14 @@ class DioHelper {
   static init() {
     Map<String, String> headers = {
       CONTENT_TYPE: APPLICATION_JSON,
-      // ACCEPT: APPLICATION_JSON,
-      // AUTHORIZATION: Constants.token,
-      // DEFAULT_LANGUAGE: language
     };
 
     dio = Dio(
       BaseOptions(
         baseUrl: Urls.baseUrl,
-        receiveDataWhenStatusError: true,
         headers: headers,
-        //nots her add Duration because datatype of receiveTimeout and sendTimeout is Duration
         receiveTimeout: const Duration(milliseconds: Constants.apiTimeOut),
-        sendTimeout:const Duration(milliseconds: Constants.apiTimeOut),
+        sendTimeout: const Duration(milliseconds: Constants.apiTimeOut),
       ),
     );
 

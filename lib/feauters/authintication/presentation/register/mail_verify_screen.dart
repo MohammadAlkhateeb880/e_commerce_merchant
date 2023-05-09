@@ -15,7 +15,6 @@ import '../../../home/home_screen.dart';
 import '../../domin/request/regester_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class MailVerificationScreen extends StatefulWidget {
   MailVerificationScreen({Key? key, required this.registerRequest})
       : super(key: key);
@@ -37,7 +36,7 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
       ),
       body: BlocConsumer<RegisterCubit, RegisterStates>(
           listener: (context, state) {
-        if (state is RegisterDoneState){
+        if (state is RegisterDoneState) {
           if (state.registerResponse.status!) {
             showToast(text: 'Register Success', state: ToastStates.SUCCESS);
             CacheHelper.saveData(
@@ -105,20 +104,9 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
                       ),
                       DefaultButton(
                         function: () {
-                          print(
-                              "HHHHHHHHHHHHHHHH codeController.text : ${codeController.text} HHHHHHHHHHHHHHHHHHHHH");
-                          print(
-                              "**************** pin ***********Bak***** kkk${cubit.mailVerificationResponse.pin}" +
-                                  "kkkk");
-
                           if (formKey.currentState!.validate()) {
-                            print(
-                                "lllllllllllllll widget.registerRequest.pin : ${widget.registerRequest.pin} lllllllllllll");
-
-                            if (widget.registerRequest.pin==
+                            if (widget.registerRequest.pin ==
                                 codeController.text) {
-
-
                               cubit.register(
                                 registerRequest: widget.registerRequest,
                               );
@@ -129,7 +117,7 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
                           }
                         },
                         text: 'Register Now',
-                        isLoading: state is RegisterLoadingState,
+                        isLoading: false //state is RegisterLoadingState,
                       ),
                     ],
                   )),

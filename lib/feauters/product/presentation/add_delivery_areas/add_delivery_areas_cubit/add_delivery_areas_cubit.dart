@@ -17,6 +17,7 @@ class AddDeliveryAreasCubit extends Cubit<AddDeliveryAreasStates> {
   addDeliveryAreas(
       {required AddDeliveryAreasRequest addDeliveryAreasRequest,
       required String id}) {
+
     DioHelper.postData(
       url: Urls.addDeliveryAreasToProduct + id.toString(),
       data: addDeliveryAreasRequest.toJson(),

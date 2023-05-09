@@ -20,36 +20,55 @@ class AddImageProductCubit extends Cubit<AddImageProductStates> {
     required AddImageProductRequest addImageProductRequest,
     required String id,
   }) async {
-    List<MultipartFile> multipartFiles = [];
-    for (File file in addImageProductRequest.gallery!) {
-      multipartFiles.add(
-        await MultipartFile.fromFile(
-          file.path,
-          filename: 'gallery',
-        ),
-      );
-    }
+    try {
+      List<MultipartFile> multipartFiles = [];
+      if (addImageProductRequest.gallery != null) {
+        for (File file in addImageProductRequest.gallery!) {
+          if (file.existsSync()) {
+            multipartFiles.add(
+              await MultipartFile.fromFile(
+                file.path,
+                filename: 'gallery',
+              ),
+            );
+          }
+        }
+      }
 
-    FormData formData = FormData.fromMap({
-      'mainImage': await MultipartFile.fromFile(
-          addImageProductRequest.mainImage!.path,
-          filename: 'mainImage'),
-      'gallery': multipartFiles,
-    });
+      if (addImageProductRequest.mainImage != null &&
+          addImageProductRequest.mainImage!.existsSync()) {
+        FormData formData = FormData.fromMap({
+          'mainImage': await MultipartFile.fromFile(
+              addImageProductRequest.mainImage!.path,
+              filename: 'mainImage'),
+          'gallery': multipartFiles,
+        });
+        print("======================= Main image path: ");
+        print(addImageProductRequest.mainImage!.path);
+        print("======================= Gallery images paths: ");
+        print(addImageProductRequest.gallery!.first.path);
 
-    DioHelper.postData(
-      url: Urls.addImageProduct + id.toString(),
-      data: formData,
-      //contentType: "multipart/form-data",
-      token: "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDMxNzBjOTFkMzI1NmM5YzdhYjA1NDAiLCJyb2xlIjoyLCJpYXQiOjE2ODA5NjE3Mzd9.ZQ0S6vT_wHH0w0kspiaHz0c4AT9_SaJlj3WkJ2cFc3g",
-    ).then((value) {
-      print(value.data['status']);
-      // addImageProductResponse = AddImageProductResponse.fromJson(value.data);
-      emit(AddImageProductDoneState(addImageProductResponse));
-    }).catchError((error) {
+        var response = await DioHelper.postData(
+          url: Urls.addImageProduct + id.toString(),
+          data: formData,
+          //contentType: "multipart/form-data",
+          token: "Bearer " +
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDMxNzBjOTFkMzI1NmM5YzdhYjA1NDAiLCJyb2xlIjoyLCJpYXQiOjE2ODA5NjE3Mzd9.ZQ0S6vT_wHH0w0kspiaHz0c4AT9_SaJlj3WkJ2cFc3g",
+        );
+
+        if (response.data['status'] == 'success') {
+          addImageProductResponse =
+              AddImageProductResponse.fromJson(response.data);
+          emit(AddImageProductDoneState(addImageProductResponse));
+        } else {
+          emit(AddImageProductErrorState(response.data['message']));
+        }
+      } else {
+        emit(AddImageProductErrorState("Main image not found"));
+      }
+    } catch (error) {
       print(error.toString());
       emit(AddImageProductErrorState(error.toString()));
-    });
+    }
   }
 }

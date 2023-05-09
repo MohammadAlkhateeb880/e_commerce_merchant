@@ -153,5 +153,17 @@ ThemeData getApplicationTheme() {
         ),
       ),
     ),
+
+    // drawer theme
+    canvasColor: ColorManager.white,
+    scaffoldBackgroundColor: ColorManager.white,
+    dividerColor: ColorManager.grey,
+    highlightColor: ColorManager.lightPrimary,
+    iconTheme: const IconThemeData(color: ColorManager.darkPrimary),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: ColorManager.primary,
+      selectionColor: ColorManager.lightPrimary,
+      selectionHandleColor: ColorManager.lightPrimary,
+    ),
   );
 }

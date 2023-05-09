@@ -13,6 +13,19 @@ bool isPasswordValid(String password) {
 }
 
 
+bool isWriteInEnglishValid(String password) {
+  return RegExp(
+      r'^[a-zA-Z0-9_@.\s-]+$')
+      .hasMatch(password);
+}
+
+bool isWriteInArabicValid(String password) {
+  return RegExp(
+      r'^[\u0600-\u06FF0-9_@.\s-]+$')
+      .hasMatch(password);
+}
+
+
 void navigateTo(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
