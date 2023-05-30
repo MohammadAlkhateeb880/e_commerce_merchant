@@ -12,11 +12,13 @@ import '../../../../core/components/text_form_field.dart';
 import '../../../../core/components/toast_notifications.dart';
 import '../../../../core/data/network/local/cache_helper.dart';
 import '../../../../core/functions.dart';
+import '../../../../core/network/local/keys.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/fonts_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/resources/values_manager.dart';
-import '../../../home/home_screen.dart';
+
+import '../../../home/presentation/home_screen.dart';
 import '../register/register_screen.dart';
 import 'login_cubit/login_states.dart';
 
@@ -46,11 +48,44 @@ class _LoginScreenState extends State<LoginScreen> {
         child:
             BlocConsumer<LoginCubit, LoginStates>(listener: (context, state) {
           if (state is LoginDoneState) {
-            if (state.loginResponse.status == true) {
-              showToast(text: 'Login Success', state: ToastStates.SUCCESS);
-              CacheHelper.saveData(key: 'token', value: state.loginResponse.data?.token).then((value) {
-                Constants.token=state.loginResponse.data!.token!;
-              });
+            if (state.loginResponse.status!) {
+              showToast(text: state.loginResponse.message!, state: ToastStates.SUCCESS);
+              CacheHelper.saveData(
+                key: CacheHelperKeys.token,
+                value: state.loginResponse.data?.token,
+              ).then(
+                    (value) {
+                  Constants.token = state.loginResponse.data!.token!;
+
+                },
+              );
+              CacheHelper.saveData(
+                key: CacheHelperKeys.email,
+                value: state.loginResponse.data?.user?.email,
+              ).then(
+                    (value) {
+                  Constants.email = state.loginResponse.data!.user!.email!;
+
+                },
+              );
+              CacheHelper.saveData(
+                key: CacheHelperKeys.fullName,
+                value: state.loginResponse.data?.user?.fullName,
+              ).then(
+                    (value) {
+                  Constants.email = state.loginResponse.data!.user!.fullName!;
+
+                },
+              );
+              CacheHelper.saveData(
+                key: CacheHelperKeys.sId,
+                value: state.loginResponse.data?.user?.sId,
+              ).then(
+                    (value) {
+                  Constants.email = state.loginResponse.data!.user!.sId!;
+
+                },
+              );
               navigateAndFinish(context, HomeScreen());
             }else{
               showToast(text:state.loginResponse.message!, state: ToastStates.ERROR);

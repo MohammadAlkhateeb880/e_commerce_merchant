@@ -71,7 +71,7 @@ class Class {
 }
 
 class Group {
-  int? quantity;
+  String? quantity;
   String? color;
 
   Group({this.quantity, this.color});

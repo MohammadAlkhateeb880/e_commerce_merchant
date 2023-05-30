@@ -8,10 +8,11 @@ import 'package:merchant_app/feauters/authintication/presentation/register/regis
 import '../../../../core/components/text_form_field.dart';
 import '../../../../core/data/network/local/cache_helper.dart';
 import '../../../../core/functions.dart';
+import '../../../../core/network/local/keys.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/resources/values_manager.dart';
-import '../../../home/home_screen.dart';
+import '../../../home/presentation/home_screen.dart';
 import '../../domin/request/regester_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,13 +39,44 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
           listener: (context, state) {
         if (state is RegisterDoneState) {
           if (state.registerResponse.status!) {
-            showToast(text: 'Register Success', state: ToastStates.SUCCESS);
+            showToast(text: state.registerResponse.message!, state: ToastStates.SUCCESS);
             CacheHelper.saveData(
-                    key: 'token', value: state.registerResponse.data?.token)
-                .then((value) {
-              Constants.token = state.registerResponse.data!.token!;
-              navigateAndFinish(context, HomeScreen());
-            });
+              key: CacheHelperKeys.token,
+              value: state.registerResponse.data?.token,
+            ).then(
+              (value) {
+                Constants.token = state.registerResponse.data!.token!;
+
+              },
+            );
+            CacheHelper.saveData(
+              key: CacheHelperKeys.email,
+              value: state.registerResponse.data?.user?.email,
+            ).then(
+                  (value) {
+                Constants.email = state.registerResponse.data!.user!.email!;
+
+              },
+            );
+            CacheHelper.saveData(
+              key: CacheHelperKeys.fullName,
+              value: state.registerResponse.data?.user?.fullName,
+            ).then(
+                  (value) {
+                Constants.email = state.registerResponse.data!.user!.fullName!;
+
+              },
+            );
+            CacheHelper.saveData(
+              key: CacheHelperKeys.sId,
+              value: state.registerResponse.data?.user?.sId,
+            ).then(
+                  (value) {
+                Constants.email = state.registerResponse.data!.user!.sId!;
+
+              },
+            );
+            navigateAndFinish(context, HomeScreen());
           } else {
             showToast(
                 text: state.registerResponse.message!,
@@ -103,22 +135,23 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
                         height: AppSize.s12,
                       ),
                       DefaultButton(
-                        function: () {
-                          if (formKey.currentState!.validate()) {
-                            if (widget.registerRequest.pin ==
-                                codeController.text) {
-                              cubit.register(
-                                registerRequest: widget.registerRequest,
-                              );
-                            } else {
-                              showToast(
-                                  text: 'Not Valid', state: ToastStates.ERROR);
+                          function: () {
+                            if (formKey.currentState!.validate()) {
+                              if (widget.registerRequest.pin ==
+                                  codeController.text) {
+                                cubit.register(
+                                  registerRequest: widget.registerRequest,
+                                );
+                              } else {
+                                showToast(
+                                    text: 'Not Valid',
+                                    state: ToastStates.ERROR);
+                              }
                             }
-                          }
-                        },
-                        text: 'Register Now',
-                        isLoading: false //state is RegisterLoadingState,
-                      ),
+                          },
+                          text: 'Register Now',
+                          isLoading: false //state is RegisterLoadingState,
+                          ),
                     ],
                   )),
             ),

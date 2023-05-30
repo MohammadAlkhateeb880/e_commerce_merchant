@@ -8,7 +8,7 @@ class AddVRProductInitialState extends AddVRProductStates {}
 class AddVRProductLoadingState extends AddVRProductStates {}
 
 class AddVRProductDoneState extends AddVRProductStates {
-  final AddVRProductResponse addVRProductResponse;
+  final AddProductResponse addVRProductResponse;
 
   AddVRProductDoneState(this.addVRProductResponse);
 

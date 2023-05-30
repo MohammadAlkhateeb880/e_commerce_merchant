@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:merchant_app/core/components/get_photo_from_gallery.dart';
 import 'package:merchant_app/core/components/text_form_field.dart';
+import 'package:merchant_app/core/components/toast_notifications.dart';
+import 'package:merchant_app/core/validations/validations.dart';
 import 'package:merchant_app/feauters/product/domin/add_category/request/add_category_request.dart';
 import 'package:merchant_app/feauters/product/presentation/add_category/add_category_cubit/add_category_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/components/button.dart';
 import '../../../../core/functions.dart';
 import '../../../../core/resources/values_manager.dart';
+import '../../domin/add_product/response/get_categories_response.dart';
+import '../add_product/add_product_cubit/add_product_cubit.dart';
 
 class AddCategoryScreen extends StatefulWidget {
   const AddCategoryScreen({Key? key}) : super(key: key);
@@ -29,6 +33,16 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var getCategoryCubit = AddProductionCubit.get(context);
+    List<String> arNames = [];
+    List<String> enNames = [];
+    if (getCategoryCubit.categories.isNotEmpty) {
+      for (CategoryData element in getCategoryCubit.categories) {
+        arNames.add(element.arName!);
+        enNames.add(element.enName!);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Category'),
@@ -75,11 +89,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                       label: 'name  of category in arabic',
                       prefixIcon: Icons.drive_file_rename_outline,
                       validator: (String value) {
-                        if (!isWriteInArabicValid(value)) {
-                          return 'name of category in Arabic Must be in Arabic';
-                        }
                         if (value.isEmpty) {
                           return 'name  of category in arabic Must not be empty';
+                        } else if (!Validations.isWriteInArabicValid(value)) {
+                          return 'name of category in Arabic Must be in Arabic';
+                        } else if (arNames.contains(value)) {
+                          return 'this Name is already existed';
                         }
                       },
                     ),
@@ -91,11 +106,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                       label: 'name of category in english',
                       prefixIcon: Icons.drive_file_rename_outline,
                       validator: (String value) {
-                        if (!isWriteInEnglishValid(value)) {
-                          return 'name of category in english Must be in english';
-                        }
                         if (value.isEmpty) {
                           return 'name of category in english Must not be empty';
+                        } else if (!Validations.isWriteInEnglishValid(value)) {
+                          return 'name of category in english Must be in english';
+                        } else if (enNames.contains(value)) {
+                          return 'this Name is already existed';
                         }
                       },
                     ),
@@ -115,7 +131,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                             arName: arNameCategoryController.text,
                             enName: enNameCategoryController.text,
                             imageName: imageCategoryController.text,
-                            imageOfCate:  imageOfCategory!,
+                            imageOfCate: imageOfCategory!,
                           );
                         }
                       },

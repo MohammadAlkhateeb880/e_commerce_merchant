@@ -15,37 +15,36 @@ class AddVRProductCubit extends Cubit<AddVRProductStates> {
 
   static AddVRProductCubit get(context) => BlocProvider.of(context);
 
-  late AddVRProductResponse addVRProductResponse = AddVRProductResponse();
+  late AddProductResponse addVRProductResponse = AddProductResponse();
 
   addVRProduct({required String? fileVRPath, required String id}) async {
 //==================================
-    Uint8List fileBytes = await File(fileVRPath!).readAsBytes();
-
-    // Create a FormData object with the file as a part
-    FormData formData = FormData.fromMap({
-      'file': MultipartFile.fromBytes(fileBytes,),
-    });
-//===================================
+//     Uint8List fileBytes = await File(fileVRPath!).readAsBytes();
+//
+//     // Create a FormData object with the file as a part
 //     FormData formData = FormData.fromMap({
-//       'file': await MultipartFile.fromFile(
-//           fileVRPath!,
-//           filename: 'VRImage'),
+//       'file': MultipartFile.fromBytes(fileBytes,),
 //     });
+//===================================
+    FormData formData = FormData.fromMap({
+      'vrImage': await MultipartFile.fromFile(
+        fileVRPath!,
+        filename: 'vrImage',
+      ),
+    });
 //=====================================
-
 
     // final file = await MultipartFile.fromFile(fileVRPath!);
     // final formData = FormData.fromMap({'file': file});
-
+emit(AddVRProductLoadingState());
     DioHelper.postData(
-      url: Urls.addVrImageProduct + id.toString(),
+      url: Urls.addVRImageProduct + id.toString(),
       data: formData,
-      // contentType: 'multipart/form-data; boundary=${formData.boundary}',
       token: "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDMxNzBjOTFkMzI1NmM5YzdhYjA1NDAiLCJyb2xlIjoyLCJpYXQiOjE2ODA5NjE3Mzd9.ZQ0S6vT_wHH0w0kspiaHz0c4AT9_SaJlj3WkJ2cFc3g",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM5NjY1OTE2YTcxNzMyZjY3ZGMyNGQiLCJyb2xlIjoxLCJpYXQiOjE2ODE0ODMzNTN9.JWfyyVsU8fakHV49r3qN5LyFhKwsi5Gzc3rRtDdukj4",
     ).then((value) {
       print(value.data['status']);
-      addVRProductResponse = AddVRProductResponse.fromJson(value.data);
+      addVRProductResponse = AddProductResponse.fromJson(value.data);
       emit(AddVRProductDoneState(addVRProductResponse));
     }).catchError((error) {
       print(error.toString());

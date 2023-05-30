@@ -8,8 +8,8 @@ import '../../../../core/components/button.dart';
 import '../../../../core/components/toast_notifications.dart';
 
 class AddOfferToProductScreen extends StatefulWidget {
-  const AddOfferToProductScreen({Key? key}) : super(key: key);
-
+   AddOfferToProductScreen({Key? key,required this.productsIds}) : super(key: key);
+  List<String>? productsIds=[];
   @override
   State<AddOfferToProductScreen> createState() =>
       _AddOfferToProductScreenState();
@@ -152,7 +152,7 @@ class _AddOfferToProductScreenState extends State<AddOfferToProductScreen> {
                         if (startDate.isAfter(endDate)) {
                           showToast(
                               text: 'Invalid inserted',
-                              state: ToastStates.WARNING);
+                              state: ToastStates.ERROR);
                         }
                         else if (formKey.currentState!.validate()) {
                           addOfferToProductsRequest.startDateOfOffers=startDateOfOffersControllers.text;
@@ -160,8 +160,7 @@ class _AddOfferToProductScreenState extends State<AddOfferToProductScreen> {
                           addOfferToProductsRequest.valueOfOffer=int.parse(valueOfOffersControllers.text);
                           addOfferToProductsRequest.typeOfOffer= (_selectedIndex == 1)? 'discount' : 'percentage';
                           addOfferToProductsRequest.productsIds=[];
-                          addOfferToProductsRequest.productsIds?.add("6433f9f0f856e62194cc57f5");
-                          addOfferToProductsRequest.productsIds?.add("6433f9e7f856e62194cc57ec");
+                          addOfferToProductsRequest.productsIds?.addAll(widget.productsIds!);
                           print("*************************");
                           print( addOfferToProductsRequest.productsIds?.first);
                           cubit.addOfferToProduct(addOfferToProductsRequest: addOfferToProductsRequest);

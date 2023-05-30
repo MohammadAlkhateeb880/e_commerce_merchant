@@ -38,7 +38,21 @@ class AppStrings {
   static const String passwordInvalid = "Password should be at least 6 chars";
   static const String SERVER_FAILURE_MESSAGE = 'Please try again later .';
   static const String EMPTY_CACHE_FAILURE_MESSAGE = 'No Data';
-  static const String OFFLINE_FAILURE_MESSAGE = 'Please Check your Internet Connection';
+  static const String OFFLINE_FAILURE_MESSAGE =
+      'Please Check your Internet Connection';
 
+  static const String arabic = "arabic";
+  static const String english = "english";
+  static const String appLanguage = "application_language";
+  static const String yes = "yes";
+  static const String no = "no";
 
+  //profile
+  static const String loginNow2YourAccount = "login_now_2_your_account";
+  static const String logout = "logout";
+  static const String confirmationLogout = "confirmation_logout";
+  static const String areYouSureYouWantToLogout =
+      "are_you_sure_you_want_to_logout";
+  static const String somethingsErrorPleaseCheckYourInternet =
+      "somethings_error_please_check_your_internet";
 }

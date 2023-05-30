@@ -7,6 +7,10 @@ class Constants {
   static const int zero = 0;
 
   static  String token = "SEND TOKEN HERE";
+  static  String email = "";
+  static  String fullName = "";
+  static  String sId = "";
 
   static const int apiTimeOut = 60000;
+  static const String bearer = 'Bearer' ;
 }

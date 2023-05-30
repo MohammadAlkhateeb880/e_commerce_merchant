@@ -1,10 +1,10 @@
-class AddVRProductResponse {
+class AddProductResponse {
   String? message;
   bool? status;
 
-  AddVRProductResponse({this.message, this.status});
+  AddProductResponse({this.message, this.status});
 
-  AddVRProductResponse.fromJson(Map<String, dynamic> json) {
+  AddProductResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
   }

@@ -20,10 +20,15 @@ class AddOfferToProductCubit extends Cubit<AddOfferToProductStates> {
       url: Urls.addOfferProduct,
       data: addOfferToProductsRequest.toJson(),
       token: "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM5NjY1OTE2YTcxNzMyZjY3ZGMyNGQiLCJyb2xlIjoxLCJpYXQiOjE2ODE0ODMzNTN9.JWfyyVsU8fakHV49r3qN5LyFhKwsi5Gzc3rRtDdukj4",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDYyM2FmOGQ1MGY2ZjMwM2QxYWVlZmUiLCJyb2xlIjoyLCJpYXQiOjE2ODQyMzMyNDB9.AVljABOh_rsZg0MTPfCu14qWHxq6vVt7QBqNTkRWzec",
     ).then((value) {
-      addOfferToProductsResponse=AddOfferToProductsResponse.fromJson(value.data);
-      emit(AddOfferToProductDoneState());
+      if(value.data['status']){
+        addOfferToProductsResponse=AddOfferToProductsResponse.fromJson(value.data);
+        emit(AddOfferToProductDoneState());
+      }else{
+        print(value.data['message']!);
+        emit(AddOfferToProductErrorState(value.data['message']));
+      }
     }).catchError((error) {
       print(error.toString());
       emit(AddOfferToProductErrorState(error));

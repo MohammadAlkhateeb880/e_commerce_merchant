@@ -12,6 +12,8 @@ class AddProductionCubit extends Cubit<AddProductionStates> {
 
   static AddProductionCubit get(context) => BlocProvider.of(context);
 
+
+
   late AddProductionResponse addProductResponse;
 
   addProduction({required AddProductionRequest addProductRequest}) {
@@ -31,6 +33,7 @@ class AddProductionCubit extends Cubit<AddProductionStates> {
 
   GetCategoriesResponse? getCategoriesResponse = GetCategoriesResponse();
   List<CategoryData> categories = [];
+  List<String?> arCategories = [];
 
   getMerchantCategories({
     required String merchantId,
@@ -44,6 +47,11 @@ class AddProductionCubit extends Cubit<AddProductionStates> {
       print("VAAAAAAAAAAAAAAAAAAAAAAL");
       getCategoriesResponse = GetCategoriesResponse.fromJson(value.data);
       categories = getCategoriesResponse!.data!;
+      arCategories = categories
+          .map((category) => category.arName)
+          .toList();
+      arCategories.insert(0, "NO Selected");
+
       emit(GetCategoriesDoneState());
     }).catchError((err) {
       print(err.toString());

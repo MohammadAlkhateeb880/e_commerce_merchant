@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:merchant_app/core/components/button.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
 import 'package:merchant_app/feauters/product/presentation/add_product/add_product_cubit/add_product_cubit.dart';
-  import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:merchant_app/feauters/product/presentation/add_product/add_product_cubit/add_product_states.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../../../../core/components/loading.dart';
+import '../../../../core/components/default_loading.dart';
 import '../../../../core/components/text_form_field.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../domin/add_product/request/add_production_request.dart';
@@ -23,10 +23,11 @@ class AddProductScreen extends StatefulWidget {
 class _AddProductScreenState extends State<AddProductScreen> {
   TextEditingController nameOfProductController = TextEditingController();
   TextEditingController descriptionOfProductController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController manufacturingMaterialOfProductController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController guaranteeOfProductController = TextEditingController();
+  TextEditingController testController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   var boardController = PageController();
 
@@ -34,29 +35,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add product'),
-      ),
-      body: BlocProvider(
-        create: (context) =>
-        AddProductionCubit()
-          ..getMerchantCategories(merchantId: "64395d675119755a2731fbf2"),
-        child: BlocConsumer<AddProductionCubit, AddProductionStates>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              if (state is GetCategoriesLoadingState) {
-                return  Center(
-                  child: DefaultLoading(),
-                );
-              } else {
-                return Center(
-                  child: onBoarding(),
-                );
-              }
-            }),
-      ),
-    );
+    return BlocConsumer<AddProductionCubit, AddProductionStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is GetCategoriesLoadingState) {
+            return Center(
+              child: DefaultLoading(),
+            );
+          } else {
+            return Center(
+              child: onBoarding(),
+            );
+          }
+        });
   }
 
   Widget onBoarding() {
@@ -130,6 +121,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   Widget buildPageOne(context) {
     var cubit = AddProductionCubit.get(context);
+    //her is warning check if language is english and replace category.arName with category.enName
     categories = cubit.categories.map((category) => category.arName).toList();
     dropdownvalue = categories[0];
     return SingleChildScrollView(
@@ -170,8 +162,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
               DropdownButtonFormField(
                 value: dropdownvalue,
-                items: categories
-                    .map<DropdownMenuItem<String>>((item) {
+                items: categories.map<DropdownMenuItem<String>>((item) {
                   return DropdownMenuItem<String>(
                     value: item,
                     child: Text(item),
@@ -215,17 +206,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   }
                 },
               ),
-              DefaultButton(
-                  function: () {
-                    AddProductionCubit
-                        .get(context)
-                        .categories
-                        .forEach((element) {
-                      var n = element.arName;
-                      print("Categories : $n");
-                    });
-                  },
-                  text: 'Get Categories'),
             ],
           ),
         ),

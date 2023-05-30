@@ -35,7 +35,7 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddProductionCubit(),
-      child: BlocConsumer<AddProductionCubit,AddProductionStates>(
+      child: BlocConsumer<AddProductionCubit, AddProductionStates>(
         listener: (context, state) {
           // TODO: implement listener
         },
@@ -78,6 +78,7 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
                     TFF(
                       controller: lengthOfProductController,
                       label: 'Length',
+                      keyboardType: TextInputType.number,
                       prefixIcon: Icons.attach_money_outlined,
                       validator: (String value) {
                         if (value.isEmpty) {
@@ -91,6 +92,7 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
                     TFF(
                       controller: widthOfProductController,
                       label: 'Width',
+                      keyboardType: TextInputType.number,
                       prefixIcon: Icons.attach_money_outlined,
                       validator: (String value) {
                         if (value.isEmpty) {
@@ -106,13 +108,19 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
                         Expanded(
                           child: DefaultButton(
                             function: () {
-                              print('------------ ');
-                              print(Classes!.isEmpty);
-                              cubit.addProduction(addProductRequest:  widget.addProductionRequest);
-                              navigateTo(
-                                  context,
-                                  AddDeliveryAreasScreen()
-                              );
+                              if(widget.addProductionRequest.classes?.first.group !=null ){
+                                cubit.addProduction(
+                                    addProductRequest:
+                                    widget.addProductionRequest);
+                                navigateAndFinish(context, AddDeliveryAreasScreen());
+                              }
+                              else{
+                                showToast(text: 'you must add latest one of group', state: ToastStates.WARNING);
+                              }
+                              print(
+                                  '-------------------------------------------- ');
+                              print(widget.addProductionRequest.toJson());
+
                             },
                             text: 'Finish',
                           ),
@@ -124,28 +132,43 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
                           child: DefaultButton(
                             function: () {
                               if (formKey.currentState!.validate()) {
-
-                                widget.addProductionRequest.classes?.add(Class(
+                                Class classe=Class(
                                   price: priceOfProductController.text,
                                   size: sizeOfProductController.text,
                                   length: lengthOfProductController.text,
                                   width: widthOfProductController.text,
-                                ));
-                                print("///////////////////////////////////////");
-                                print(widget.addProductionRequest.classes?.first.price);
-                                print(widget.addProductionRequest.classes?.first.size);
-                                print(widget.addProductionRequest.classes?.first.length);
-                                print(widget.addProductionRequest.classes?.first.width);
-                                print("///////////////////////////////////////");
-
+                                );
+                                if (widget.addProductionRequest.classes == null) {
+                                  widget.addProductionRequest.classes = [classe];
+                                } else {
+                                  widget.addProductionRequest.classes?.add(classe);
+                                }
+                                // priceOfProductController.clear();
+                                // sizeOfProductController.clear();
+                                // lengthOfProductController.clear();
+                                // widthOfProductController.clear();
+                                print(
+                                    "///////////////////////////////////////");
+                                print(widget.addProductionRequest.toJson());
+                                print(widget
+                                    .addProductionRequest.classes?.first.price);
+                                print(widget
+                                    .addProductionRequest.classes?.first.size);
+                                print(widget.addProductionRequest.classes?.first
+                                    .length);
+                                print(widget
+                                    .addProductionRequest.classes?.first.width);
+                                print(
+                                    "///////////////////////////////////////");
 
                                 showDialog(
                                   barrierDismissible: false,
                                   context: context,
                                   builder: (context) {
                                     return AddDialog(
-                                      addProductionRequest: widget
-                                          .addProductionRequest,);
+                                      addProductionRequest:
+                                          widget.addProductionRequest,
+                                    );
                                   },
                                 );
                               }
@@ -155,7 +178,10 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
                         ),
                       ],
                     ),
-                    const Text('print what the user select'),
+                    // if (widget.addProductionRequest.classes == null)
+                    //   const Center(child: Text('print what the user selected'))
+                    // else
+                    //   buildListWidget(context),
                   ],
                 ),
               ),
@@ -166,24 +192,36 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
     );
   }
 
-  Widget buildListWidget(List<Class>? classes) {
+  Widget buildListWidget(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Row(
-          children: [
-            Text(classes?[index].length ??
-                'length : ${classes?[index].length} '),
-            Text(classes?[index].width ?? 'width : ${classes?[index].width} '),
-            Text(classes?[index].size ?? 'size : ${classes?[index].size} '),
-            Text(classes?[index].price ?? 'price : ${classes?[index].price} '),
-            //classes?[index].group.forEach((element) { })
-            Text(classes?[index].group?[0].quantity.toString() ??
-                'price : ${classes?[index].price} '),
-          ],
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(AppPadding.p8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('name : ${widget.addProductionRequest.name}'),
+                Text('descreption : ${widget.addProductionRequest.descreption}'),
+                Text('mainCategory : ${widget.addProductionRequest.mainCategorie}'),
+                Text('manufacturingMaterial : ${widget.addProductionRequest.manufacturingMaterial}'),
+                Text('guarantee : ${widget.addProductionRequest.guarantee}'),
+                Text('length : ${widget.addProductionRequest.classes?.last.length}'),
+                Text('width : ${widget.addProductionRequest.classes?.last.width}'),
+                Text( 'size : ${widget.addProductionRequest.classes?.last.size} '),
+                Text( 'price : ${widget.addProductionRequest.classes?.last.price} '),
+                // if(widget.addProductionRequest.classes?[index].group !=null )
+                //    widget.addProductionRequest.classes?[index].group.forEach((element) { }),
+
+                Text( 'quantity : ${widget.addProductionRequest.classes?.last.group?.last.quantity} '),
+                Text( 'color : ${widget.addProductionRequest.classes?.last.group?.last.color} '),
+              ],
+            ),
+          ),
         );
       },
-      itemCount: classes?.length,
+      itemCount: widget.addProductionRequest.classes?.length,
     );
   }
 }

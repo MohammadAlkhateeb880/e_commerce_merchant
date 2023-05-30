@@ -20,7 +20,7 @@ class _AddDialogState extends State<AddDialog> {
   TextEditingController colorOfProductController = TextEditingController();
   TextEditingController quantityOfProductController = TextEditingController();
   Color _currentColor = Colors.blue;
-  List<Group>? group = [];
+
   List<Class> classes = [];
 
   @override
@@ -66,10 +66,7 @@ class _AddDialogState extends State<AddDialog> {
             const SizedBox(
               height: AppSize.s8,
             ),
-            Container(width: 50, height: 50, color: _currentColor
-                // Color(int.parse(colorOfProductController.text, radix: 16)),
-                //Color(int.parse(colorOfProductController.text, radix: 16) + 0xFF000000),
-                )
+            Container(width: 50, height: 50, color: _currentColor),
           ],
         ),
       ),
@@ -79,39 +76,43 @@ class _AddDialogState extends State<AddDialog> {
           function: () {
             if (formKey1.currentState!.validate()) {
               print('valeeeeeeeeeeeeed');
-              group?.add(
-                Group(
-                  quantity: int.parse(quantityOfProductController.text),
-                  color: colorOfProductController.text,
-                ),
+
+                Group group = Group(
+                quantity: quantityOfProductController.text,
+                color: colorOfProductController.text,
               );
-              widget.addProductionRequest.classes?.add(Class(group: group));
+
+              if (widget.addProductionRequest.classes?.last.group == null) {
+                widget.addProductionRequest.classes?.last.group = [group];
+              } else {
+                widget.addProductionRequest.classes?.last.group?.add(group);
+              }
             }
-            print('++++++++++++++++++++++++++  : ${group?.length}');
-            group?.forEach((g) {
-              print('quantity : ');
-              print(g.quantity);
-              print('   color : ');
-              print(g.color);
-            });
             quantityOfProductController.clear();
             colorOfProductController.clear();
           },
         ),
         DTextButton(
-          text: 'Finish',
+          text: 'Close',
           function: () {
             if (formKey1.currentState!.validate()) {
-              print('valeeeeeeeeeeeeed');
-              group?.add(
-                Group(
-                  quantity: int.parse(quantityOfProductController.text),
-                  color: colorOfProductController.text,
-                ),
+              print('**************************');
+              print(widget.addProductionRequest.toJson());
+              print('**************************');
+              Group group = Group(
+                quantity: quantityOfProductController.text,
+                color: colorOfProductController.text,
               );
-              widget.addProductionRequest.classes?.add(Class(group: group));
+
+              if (widget.addProductionRequest.classes?.last.group == null) {
+                print("nullllllllllllllll");
+                widget.addProductionRequest.classes?.last.group = [group];
+              } else {
+                widget.addProductionRequest.classes?.last.group?.add(group);
+              }
             }
-            if (group != null && group!.isNotEmpty) {
+            if (widget.addProductionRequest.classes?.last.group != null) {
+              print(widget.addProductionRequest.toJson());
               Navigator.of(context).pop();
             } else {
               showToast(
@@ -128,16 +129,13 @@ class _AddDialogState extends State<AddDialog> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // استخدام StatefulBuilder لتحديث AlertDialog
         return AlertDialog(
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: _currentColor,
               onColorChanged: (Color color) {
                 setState(() {
-                  // استخدام setState() لتحديث _currentColor وإعادة بناء AlertDialog
                   _currentColor = color;
-                  //Color(int.parse(colorOfProductController.text, radix: 16) + 0xFF000000);
                   colorOfProductController.text =
                       color.value.toRadixString(16).toUpperCase();
                   print(colorOfProductController.text);

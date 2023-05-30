@@ -8,13 +8,13 @@ class LoginResponse {
   LoginResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    data['status'] = status;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message'] = this.message;
+    data['status'] = this.status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -29,38 +29,41 @@ class Data {
   Data({this.user, this.token});
 
   Data.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
     token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (user != null) {
-      data['user'] = user!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
     }
-    data['token'] = token;
+    data['token'] = this.token;
     return data;
   }
 }
 
 class User {
   String? sId;
-  String? password;
+  String? fullName;
+  String? email;
   int? role;
 
-  User({this.sId, this.password, this.role});
+  User({this.sId, this.fullName, this.email, this.role});
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    password = json['password'];
+    fullName = json['fullName'];
+    email = json['email'];
     role = json['role'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['password'] = password;
-    data['role'] = role;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['fullName'] = this.fullName;
+    data['email'] = this.email;
+    data['role'] = this.role;
     return data;
   }
 }

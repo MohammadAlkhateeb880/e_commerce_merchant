@@ -6,7 +6,7 @@ import 'package:flutter_conditional_rendering/conditional.dart';
 import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 import '../resources/values_manager.dart';
-import 'loading.dart';
+import 'default_loading.dart';
 
 class DefaultButton extends StatelessWidget {
   DefaultButton({

@@ -13,11 +13,13 @@ import '../../../../core/components/button.dart';
 import '../../../../core/components/get_photo_from_gallery.dart';
 import '../../../../core/components/text_button.dart';
 import '../../../../core/components/text_form_field.dart';
+import '../../../../core/components/toast_notifications.dart';
 import '../../../../core/functions.dart';
 import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/resources/values_manager.dart';
+import '../../../../core/validations/validations.dart';
 import '../login/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -126,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (value.isEmpty) {
                               return 'Email Must not be empty';
                             }
-                            // else if (!isEmailValid(value)) {
+                            // else if (!Validations.isEmailValid(value)) {
                             //   return 'Email Is not Correct';
                             // }
                           },
@@ -150,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           validator: (String value) {
                             if (value.isEmpty) {
                               return 'password Must not be empty';
-                            } else if (!isPasswordValid(value)) {
+                            } else if (!Validations.isPasswordValid(value)) {
                               return 'password Must Contain 8 Characters as : P@ssw0rd!';
                             }
                           },
@@ -299,10 +301,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (state is MailVerificationErrorState) {
                               print(
                                   "****************************** ${state.error} *******************************");
+                             showToast(state: ToastStates.ERROR,text: state.error);
                             }
                             if (state is MailVerificationDoneState) {
                               registerRequest.pin =
                                   state.mailVerificationResponse!.pin;
+                              showToast(state: ToastStates.ERROR,text: state.mailVerificationResponse!.message??"");
                               navigateTo(
                                 context,
                                 MailVerificationScreen(
