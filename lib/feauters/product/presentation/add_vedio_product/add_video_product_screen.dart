@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:merchant_app/core/components/default_error.dart';
 import 'package:merchant_app/core/components/default_loading.dart';
 import 'package:merchant_app/core/components/git_xfile.dart';
+import 'package:merchant_app/core/components/toast_notifications.dart';
 import 'package:merchant_app/feauters/product/presentation/add_vedio_product/add_video_product_cubit/add_video_product_cubit.dart';
 
 import '../../../../core/components/button.dart';
@@ -18,26 +19,21 @@ class AddVideoProductScreen extends StatefulWidget {
 }
 
 class _AddVideoProductScreenState extends State<AddVideoProductScreen> {
-
   String? fileVideoPath;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddVideoProductCubit(),
-      child: BlocConsumer<AddVideoProductCubit,AddVideoProductStates>(
+      child: BlocConsumer<AddVideoProductCubit, AddVideoProductStates>(
         listener: (context, state) {
-          if(state is AddVideoProductDoneState){
-            navigateTo(context,AddImageProductScreen());
+          if (state is AddVideoProductDoneState) {
+            navigateTo(context, AddImageProductScreen());
           }
         },
         builder: (context, state) {
           var cubit = AddVideoProductCubit.get(context);
-          if(state is AddVideoProductLoadingState){
-          return  DefaultLoading();
-          }
-          if(state is AddVideoProductLoadingState){
-           return const DefaultError();
-          }
+
           return Scaffold(
             appBar: AppBar(
               title: const Text('ADD Video'),
@@ -47,12 +43,21 @@ class _AddVideoProductScreenState extends State<AddVideoProductScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      fileVideoPath= await pickXFile();
+                      fileVideoPath = await pickXFile();
                       setState(() {});
                     },
                     child: const Text('Select Video'),
                   ),
-                  fileVideoPath!=null ? Container(child: const Center(child: Text('This is Video'),),): const SizedBox(
+                  fileVideoPath != null
+                      ? Container(
+                    child: Center(
+                        child: state is AddVideoProductLoadingState
+                            ? DefaultLoading()
+                            : const Text('THis is video')),
+                  )
+                      : state is AddVideoProductErrorState
+                      ? const DefaultError()
+                      : const SizedBox(
                     width: 200.0,
                     height: 200.0,
                     child: Center(child: Text('No Video selected')),
@@ -60,12 +65,21 @@ class _AddVideoProductScreenState extends State<AddVideoProductScreen> {
                   const SizedBox(
                     height: AppSize.s18,
                   ),
-                  DefaultButton(text: 'Send Video', function: ()  {
-                    if(fileVideoPath!=null){
-                      cubit.addVRProduct(fileVideoPath: fileVideoPath, id: '64623c60d50f6f303d1aef06');
-
-                    }
-                  }),
+                  Padding(
+                    padding: const EdgeInsets.all(AppPadding.p8),
+                    child: DefaultButton(
+                      text: 'Send Video',
+                      function: () {
+                        if (fileVideoPath != null) {
+                          cubit.addVideoProduct(
+                              fileVideoPath: fileVideoPath,
+                              id: '64623c60d50f6f303d1aef06');
+                        }else{
+                          showToast(text: 'select video', state: ToastStates.WARNING);
+                        }
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

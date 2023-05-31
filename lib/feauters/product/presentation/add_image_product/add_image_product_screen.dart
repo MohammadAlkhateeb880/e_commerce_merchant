@@ -82,9 +82,9 @@ class _AddImageProductScreenState extends State<AddImageProductScreen> {
                     child: GridView.builder(
                         itemCount: imageFileList!.length,
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisSpacing: AppPadding.p2,
-                                crossAxisSpacing: AppPadding.p2,
+                             const SliverGridDelegateWithFixedCrossAxisCount(
+                                mainAxisSpacing: AppPadding.p4,
+                                crossAxisSpacing: AppPadding.p4,
                                 crossAxisCount: 3),
                         itemBuilder: (BuildContext context, int index) {
                           return Image.file(

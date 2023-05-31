@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:merchant_app/core/config/urls.dart';
 import 'package:merchant_app/core/data/network/remote/dio_helper.dart';
 import 'package:meta/meta.dart';
@@ -38,7 +37,7 @@ class AddVRProductCubit extends Cubit<AddVRProductStates> {
     // final formData = FormData.fromMap({'file': file});
 emit(AddVRProductLoadingState());
     DioHelper.postData(
-      url: Urls.addVRImageProduct + id.toString(),
+      url: Urls.addVRProduct + id.toString(),
       data: formData,
       token: "Bearer " +
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM5NjY1OTE2YTcxNzMyZjY3ZGMyNGQiLCJyb2xlIjoxLCJpYXQiOjE2ODE0ODMzNTN9.JWfyyVsU8fakHV49r3qN5LyFhKwsi5Gzc3rRtDdukj4",

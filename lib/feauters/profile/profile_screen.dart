@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:merchant_app/feauters/profile/widgets_profile/settings_item_widget.dart';
 import '../../core/components/button.dart';
 import '../../core/components/default_error.dart';
+import '../../core/components/default_image.dart';
 import '../../core/components/defualt_loading.dart';
 import '../../core/components/my_divider.dart';
 import '../../core/components/my_text.dart';
@@ -24,6 +26,8 @@ import '../layouts/home_leyout/home_layout_cubit/home_layout_cubit.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+
+import '../order/presentation/orders/orders_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -415,10 +419,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10.0),
-              CircleAvatar(
-                backgroundImage: NetworkImage(_profile.user!.marketLogo!),
-                radius: 50.0,
-              ),
+               DefaultImage(
+                  imageUrl:_profile.user!.marketLogo!,
+                  clickable: false,
+                ),
               const SizedBox(height: 10.0),
               Text(
                 _profile.user!.marketName!,
@@ -461,12 +465,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: AppSize.s16),
+              Container(
+                margin: const EdgeInsetsDirectional.all(AppMargin.m8),
+                padding: const EdgeInsetsDirectional.all(AppPadding.p12),
+                decoration: BoxDecoration(
+                  color: ColorManager.white,
+                  borderRadius:
+                  BorderRadiusDirectional.circular(AppSize.s8),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: ColorManager.grey,
+                      blurRadius: 5.0,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SettingsItemWidget(
+                      onTap: () {},
+                      iconPath: IconsAssets.payment,
+                      titleTR: AppStrings.paymentMethod,
+                    ),
+                    SettingsItemWidget(
+                      onTap: () => handleOrderHistoryPress(),
+                      iconPath: IconsAssets.order,
+                      titleTR: AppStrings.orderHistory,
+                    ),
+                    // SettingsItemWidget(
+                    //   onTap: () => handleWishlistPress(),
+                    //   iconPath: IconsAssets.wishlist,
+                    //   titleTR: AppStrings.wishlist,
+                    // ),
+                    // SettingsItemWidget(
+                    //   onTap: () => handleLangPress(),
+                    //   iconPath: IconsAssets.language,
+                    //   titleTR: AppStrings.appLanguage,
+                    //   isLang: true,
+                    //   withDivider: false,
+                    // ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ],
     );
   }
+  // Functions:
+
+
+
+// 2. handle Order History Press:
+  handleOrderHistoryPress() {
+    navigateTo(context, const OrdersScreen());
+  }
+
+  // 3. handle Wishlist Press
+
 }
 
 class ProfileInfoRow extends StatelessWidget {

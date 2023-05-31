@@ -1,9 +1,9 @@
 class Urls {
-  static const String baseUrl = 'http://192.168.216.175:3000/user/';
+  static const String baseUrl = 'http://192.168.137.175:3000/user/';
 
   //static const String baseUrl = 'http://192.168.1.104:3000/user/';
 
-  static const String filesUrl = 'http://192.168.1.104:3000/api/download?fileName';
+  static const String filesUrl = 'http://192.168.137.175:3000/api/download?fileName';
 
   //authentication
   static const String register = '${baseUrl}Merchant/SignUp';
@@ -16,7 +16,8 @@ class Urls {
   static const String addDeliveryAreasToProduct =
       '${baseUrl}Merchant/addDeliveryAreasToProduct/';
   static const String addVideoProduct = '${baseUrl}Merchant/addVideoProduct/';
-  static const String addVRImageProduct = '${baseUrl}Merchant/addVrImageProduct/';
+  static const String addVRProduct = '${baseUrl}Merchant/addVrImageProduct/';
+  static const String addARProduct = '${baseUrl}Merchant/addArImageProduct/';
   static const String addARImageProduct = '${baseUrl}Merchant/addArImageProduct/';
   static const String addOfferProduct = '${baseUrl}Merchant/addOffer';
   static const String addCategories = '${baseUrl}Merchant/addingCategorie';
@@ -24,7 +25,8 @@ class Urls {
   //get api
   static const String getCategories = '${baseUrl}allUsers/getCategorie/';
   static const String getProfile = '${baseUrl}Merchant/getProfile';
-  static const String getMerchantProducts = '${baseUrl}allUsers/MerchantProducts/';
+  static const String getMerchantProducts = '${baseUrl}Merchant/getOrdersForMerchant';
+  static const String getOrderById = '${baseUrl}allUsers/getOrderById';
   //advanced Search
   static const String advancedSearch = '${baseUrl}allUsers/SearchProduct';
 

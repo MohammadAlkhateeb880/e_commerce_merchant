@@ -14,6 +14,7 @@ class MText extends StatelessWidget {
     this.maxLines = 1,
     this.color,
     this.textAlign = TextAlign.center,
+    this.notTR = false,
   }) : super(key: key);
 
   String text;
@@ -21,12 +22,16 @@ class MText extends StatelessWidget {
   int? maxLines;
   Color? color;
   TextAlign? textAlign;
+  bool notTR;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
-      style: style ?? getMediumStyle(color: color ?? ColorManager.primary),
+      notTR ? text : text,
+      style: style ??
+          getMediumStyle(
+            color: color ?? ColorManager.primary,
+          ),
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
       textAlign: textAlign,

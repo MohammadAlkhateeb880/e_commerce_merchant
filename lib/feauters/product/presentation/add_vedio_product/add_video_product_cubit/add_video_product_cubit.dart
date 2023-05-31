@@ -12,7 +12,7 @@ class AddVideoProductCubit extends Cubit<AddVideoProductStates> {
   static AddVideoProductCubit get(context) => BlocProvider.of(context);
   late AddProductResponse addVideoProductResponse = AddProductResponse();
 
-  addVRProduct({required String? fileVideoPath, required String id}) async {
+  addVideoProduct({required String? fileVideoPath, required String id}) async {
 //==================================
 //     Uint8List fileBytes = await File(fileVRPath!).readAsBytes();
 //

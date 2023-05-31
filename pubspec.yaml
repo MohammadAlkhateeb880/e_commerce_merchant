@@ -28,6 +28,10 @@ dependencies:
   dotted_border: ^2.0.0+3
   easy_localization: ^3.0.1
   flutter_phoenix: ^1.1.1
+  cached_network_image: ^3.2.3
+  photo_view: ^0.14.0
+  flutter_dismissible_tile: ^1.0.2
+  flutter_svg: ^1.1.5
 
 
 
@@ -91,6 +95,7 @@ flutter:
     - assets/json/
     - assets/images/
     - assets/fonts/
+    - assets/icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

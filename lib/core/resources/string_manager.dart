@@ -46,6 +46,20 @@ class AppStrings {
   static const String appLanguage = "application_language";
   static const String yes = "yes";
   static const String no = "no";
+  static const String sp = "sp";
+  static const String classSize = "class_size";
+  static const String classPrice = "class_price";
+  static const String classLength = "class_length";
+  static const String classWidth = "class_width";
+  static const String priceAfterDiscount = "class_price_after_discount";
+  static const String classes = "classes";
+  static const String deliveryAreas = "delivery_areas";
+  static const String existColors = "exist_colors";
+  static const String color = "color";
+  static const String fromMerchant = "from_merchant";
+  static const String paymentMethod = "payment_method";
+  static const String paymentStatus = "payment_status";
+
 
   //profile
   static const String loginNow2YourAccount = "login_now_2_your_account";
@@ -55,4 +69,15 @@ class AppStrings {
       "are_you_sure_you_want_to_logout";
   static const String somethingsErrorPleaseCheckYourInternet =
       "somethings_error_please_check_your_internet";
+  //order
+  static const String streetNumber = "street_number";
+  static const String houseNumber = "house_number";
+  static const String yourOwnOrders = "your_own_orders";
+  static const String orderOwner = "order_owner";
+  static const String orderStatus = "order_status";
+  static const String orderLocation = "order_location";
+  static const String description = "description";
+  static const String totalPrice = "total_price";
+  static const String orderDetails = "order_Details";
+  static const String orderHistory = "order_history";
 }

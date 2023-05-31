@@ -8,12 +8,13 @@ void showToast({
   required ToastStates state,
 }) =>
     Fluttertoast.showToast(
+
         msg: text,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 5,
         backgroundColor: chooseToastColor(state),
-        textColor: Colors.white,
+        textColor: Colors.black54,
         fontSize: 16.0);
 
 //ENUM
