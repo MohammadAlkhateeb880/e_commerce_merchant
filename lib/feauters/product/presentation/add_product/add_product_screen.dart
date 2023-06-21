@@ -2,7 +2,11 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:merchant_app/core/components/button.dart';
+import 'package:merchant_app/core/components/text_button.dart';
+import 'package:merchant_app/core/components/toast_notifications.dart';
+import 'package:merchant_app/core/functions.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
+import 'package:merchant_app/feauters/product/presentation/add_category/add_category_screen.dart';
 import 'package:merchant_app/feauters/product/presentation/add_product/add_product_cubit/add_product_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:merchant_app/feauters/product/presentation/add_product/add_product_cubit/add_product_states.dart';
@@ -36,7 +40,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AddProductionCubit, AddProductionStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is AddProductionDoneState){
+            showToast(text: state.addProductResponse.message!, state: ToastStates.SUCCESS);
+          }
+        },
         builder: (context, state) {
           if (state is GetCategoriesLoadingState) {
             return Center(
@@ -71,14 +79,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       guaranteeOfProductController.text;
                   addProductionRequest.manufacturingMaterial =
                       manufacturingMaterialOfProductController.text;
-                  addProductionRequest.mainCategorie = dropdownvalue;
-                  print(
-                      '===============================================================');
-                  print('name : ${addProductionRequest.name}  ');
-                  print(addProductionRequest.descreption);
-                  print(addProductionRequest.mainCategorie);
-                  print(addProductionRequest.guarantee);
-                  print(addProductionRequest.manufacturingMaterial);
+
 
                   return AddProductionScreen2(
                     addProductionRequest: addProductionRequest,
@@ -116,14 +117,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  var categories = [];
   String? dropdownvalue;
 
   Widget buildPageOne(context) {
     var cubit = AddProductionCubit.get(context);
     //her is warning check if language is english and replace category.arName with category.enName
-    categories = cubit.categories.map((category) => category.arName).toList();
-    dropdownvalue = categories[0];
+    dropdownvalue = cubit.arCategories[0];
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(AppSize.s8),
@@ -160,24 +159,45 @@ class _AddProductScreenState extends State<AddProductScreen> {
               const SizedBox(
                 height: AppSize.s18,
               ),
-              DropdownButtonFormField(
-                value: dropdownvalue,
-                items: categories.map<DropdownMenuItem<String>>((item) {
-                  return DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    dropdownvalue = value as String?;
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Select a Category',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.category_outlined),
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButtonFormField(
+                      value: dropdownvalue,
+                      items: cubit.arCategories
+                          .map<DropdownMenuItem<String>>((item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            // Adjust the padding as needed
+                            child: Text(item ?? ''),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          dropdownvalue = value;
+                          addProductionRequest.mainCategorie = dropdownvalue;
+                          print(dropdownvalue);
+                          print(addProductionRequest.mainCategorie);
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Select a Category',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.category_outlined),
+                        contentPadding: EdgeInsets.all(5.0),
+                      ),
+                    ),
+                  ),
+                  DTextButton(
+                    text: 'Add Cat',
+                    function: () {
+                      navigateTo(context, const AddCategoryScreen());
+                    },
+                  ),
+                ],
               ),
               const SizedBox(
                 height: AppSize.s18,

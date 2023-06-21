@@ -9,10 +9,13 @@ import '../../../../core/components/git_xfile.dart';
 import '../../../../core/components/toast_notifications.dart';
 import '../../../../core/functions.dart';
 import '../../../../core/resources/values_manager.dart';
+import '../../../home/presentation/home_cubit/home_cubit.dart';
 import '../add_vedio_product/add_video_product_screen.dart';
 
 class AddARProductScreen extends StatefulWidget {
-  const AddARProductScreen({Key? key}) : super(key: key);
+  const AddARProductScreen({Key? key, required this.idProduct})
+      : super(key: key);
+  final String idProduct;
 
   @override
   State<AddARProductScreen> createState() => _AddARProductScreenState();
@@ -21,13 +24,15 @@ class AddARProductScreen extends StatefulWidget {
 class _AddARProductScreenState extends State<AddARProductScreen> {
   String? fileARPath;
 
+
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddARProductCubit(),
       child: BlocConsumer<AddARProductCubit, AddARProductStates>(
         listener: (context, state) {
-          // TODO: implement listener
+
         },
         builder: (context, state) {
           AddARProductCubit cubit = AddARProductCubit.get(context);
@@ -75,8 +80,7 @@ class _AddARProductScreenState extends State<AddARProductScreen> {
                       function: () {
                         if (fileARPath != null) {
                           cubit.addARProduct(
-                              fileARPath: fileARPath,
-                              id: '64623c60d50f6f303d1aef06');
+                              fileARPath: fileARPath, id: widget.idProduct);
                         } else {
                           showToast(
                               text: 'select AR', state: ToastStates.WARNING);

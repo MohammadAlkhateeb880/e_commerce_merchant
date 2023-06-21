@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import '../../../../../core/resources/constants_manager.dart';
 import '../../../domin/add_product/response/add_vr_product_rersponse.dart';
 import 'dart:typed_data';
 
@@ -39,8 +40,7 @@ emit(AddVRProductLoadingState());
     DioHelper.postData(
       url: Urls.addVRProduct + id.toString(),
       data: formData,
-      token: "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM5NjY1OTE2YTcxNzMyZjY3ZGMyNGQiLCJyb2xlIjoxLCJpYXQiOjE2ODE0ODMzNTN9.JWfyyVsU8fakHV49r3qN5LyFhKwsi5Gzc3rRtDdukj4",
+      token: Constants.bearer + Constants.token,
     ).then((value) {
       print(value.data['status']);
       addVRProductResponse = AddProductResponse.fromJson(value.data);

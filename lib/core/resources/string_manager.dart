@@ -69,6 +69,8 @@ class AppStrings {
       "are_you_sure_you_want_to_logout";
   static const String somethingsErrorPleaseCheckYourInternet =
       "somethings_error_please_check_your_internet";
+  static const String disputedSystem =
+      "disputed system";
   //order
   static const String streetNumber = "street_number";
   static const String houseNumber = "house_number";
@@ -80,4 +82,7 @@ class AppStrings {
   static const String totalPrice = "total_price";
   static const String orderDetails = "order_Details";
   static const String orderHistory = "order_history";
+  //disputed
+  static const String disputeHistory = "disputed_history";
+  static const String addDispute = "disputed_system";
 }

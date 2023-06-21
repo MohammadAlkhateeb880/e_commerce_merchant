@@ -11,8 +11,8 @@ import 'dart:io';
 import '../../../../core/components/git_xfile.dart';
 import '../../../../core/functions.dart';
 class AddVRProductScreen extends StatefulWidget {
-  const AddVRProductScreen({Key? key}) : super(key: key);
-
+  const AddVRProductScreen({Key? key, required this.idProduct}) : super(key: key);
+  final String idProduct;
   @override
   // ignore: library_private_types_in_public_api
   _AddVRProductScreenState createState() => _AddVRProductScreenState();
@@ -53,8 +53,7 @@ class _AddVRProductScreenState extends State<AddVRProductScreen> {
                 ),
                 DefaultButton(text: 'Send VR', function: ()  {
                   if(fileVRPath!=null){
-                    cubit.addVRProduct(fileVRPath: fileVRPath, id: '6459e9d77cbd0644ea856a77');
-                    navigateTo(context,AddVideoProductScreen());
+                    cubit.addVRProduct(fileVRPath: fileVRPath, id: widget.idProduct);
                   }
                 }),
               ],

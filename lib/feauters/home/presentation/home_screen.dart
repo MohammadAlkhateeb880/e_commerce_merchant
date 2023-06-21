@@ -3,8 +3,13 @@ import 'package:merchant_app/core/components/default_loading.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
 import 'package:merchant_app/feauters/home/presentation/home_cubit/home_cubit.dart';
 import 'package:merchant_app/feauters/home/presentation/home_cubit/widget_home_screen/add_dialog.dart';
+import 'package:merchant_app/feauters/product/presentation/add_image_product/add_image_product_screen.dart';
 import 'package:merchant_app/feauters/product/presentation/add_offer_to_product/add_offer_to_product_screen.dart';
+import 'package:merchant_app/feauters/product/presentation/add_vedio_product/add_video_product_screen.dart';
+import 'package:merchant_app/feauters/product/presentation/add_vr_product/add_vr_product_screen.dart';
 
+import '../../../core/components/build_popup_menu_button.dart';
+import '../../../core/components/default_image.dart';
 import '../../../core/components/my_divider.dart';
 import '../../../core/components/text_form_field.dart';
 import '../../../core/config/urls.dart';
@@ -12,6 +17,8 @@ import '../../../core/functions.dart';
 import '../../../core/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/resources/constants_manager.dart';
+import '../../product/presentation/add_ar_product/add_ar_product_screen.dart';
 import '../domin/response/get_merchant_response.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,6 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSelectionMode = false;
   TextEditingController searchController = TextEditingController();
 
+  Future<void> _fetchProfileData() async {
+    // Dispatch an event to fetch the profile data
+    await BlocProvider.of<HomeCubit>(context)
+        .getMerchantProducts(merchantId: Constants.sId);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeStates>(
@@ -37,130 +51,94 @@ class _HomeScreenState extends State<HomeScreen> {
             child: DefaultLoading(),
           );
         }
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p4),
-            child: GestureDetector(
-              onLongPress: () {
-                setState(() {
-                  isSelectionMode = true;
-                });
-              },
-              child: Column(
-                children: <Widget>[
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: cubit.products.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var product = cubit.products[index];
-                      return Column(
-                        children: [
-                          ListTile(
-                            title: Text('${product.name}'),
-                            subtitle: Text('${product.manufacturingMaterial}'),
-                            leading: const Icon(Icons.photo),
-                            trailing: isSelectionMode
-                                ? Checkbox(
-                                    value: selectedIndices.contains(index),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value == false) {
-                                          selectedIndices.remove(index);
-                                          if (selectedIndices.isEmpty) {
-                                            isSelectionMode = false;
+        if (state is GetMerchantProDoneState) {
+          print(state.products);
+        }
+        return RefreshIndicator(
+          onRefresh: _fetchProfileData,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(AppPadding.p4),
+              child: GestureDetector(
+                onLongPress: () {
+                  setState(() {
+                    isSelectionMode = true;
+                  });
+                },
+                child: Column(
+                  children: <Widget>[
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: cubit.products.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var product = cubit.products[index];
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Text('${product.name}'),
+                              subtitle:
+                                  Text('${product.manufacturingMaterial}'),
+                              leading: DefaultImage(
+                                width: 50.0,
+                                height: 50.0,
+                                imageUrl: product.mainImage ?? ' ',
+                                clickable: true,
+                              ),
+                              trailing: isSelectionMode
+                                  ? Checkbox(
+                                      value: selectedIndices.contains(index),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value == false) {
+                                            selectedIndices.remove(index);
+                                            if (selectedIndices.isEmpty) {
+                                              isSelectionMode = false;
+                                            }
                                           }
-                                        }
-                                      });
-                                    },
-                                  )
-                                : buildPopupMenuButton(context, index),
-                            onTap: () {
-                              if (isSelectionMode) {
+                                        });
+                                      },
+                                    )
+                                  : buildPopupMenuButton(context, index),
+                              onTap: () {
+                                if (isSelectionMode) {
+                                  setState(() {
+                                    if (selectedIndices.contains(index)) {
+                                      selectedIndices.remove(index);
+                                    } else {
+                                      selectedIndices.add(index);
+                                    }
+                                    if (selectedIndices.isEmpty) {
+                                      isSelectionMode = false;
+                                    }
+                                  });
+                                }
+                              },
+                              onLongPress: () {
                                 setState(() {
-                                  if (selectedIndices.contains(index)) {
-                                    selectedIndices.remove(index);
-                                  } else {
-                                    selectedIndices.add(index);
-                                  }
-                                  if (selectedIndices.isEmpty) {
-                                    isSelectionMode = false;
-                                  }
+                                  isSelectionMode = true;
+                                  selectedIndices.add(index);
                                 });
-                              }
-                            },
-                            onLongPress: () {
-                              setState(() {
-                                isSelectionMode = true;
-                                selectedIndices.add(index);
-                              });
-                            },
-                            selected: isSelectionMode &&
-                                selectedIndices.contains(index),
-                          ),
-                          MyDivider(
-                            margin: 8.0,
-                            width: getScreenWidth(context) / 1.2,
-                            alignment: AlignmentDirectional.centerStart,
-                            color: ColorManager.lightPrimary,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
+                              },
+                              selected: isSelectionMode &&
+                                  selectedIndices.contains(index),
+                            ),
+                            MyDivider(
+                              margin: 8.0,
+                              width: getScreenWidth(context) / 1.2,
+                              alignment: AlignmentDirectional.centerStart,
+                              color: ColorManager.lightPrimary,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         );
-      },
-    );
-  }
-
-  Future addToHotSelling(String productId) {
-    return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AddDialogHotSelling(
-          productId: productId,
-        );
-      },
-    );
-  }
-
-  Widget buildPopupMenuButton(BuildContext context, int index) {
-    return PopupMenuButton<String>(
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-        const PopupMenuItem<String>(
-          value: 'option1',
-          child: Text('edit'),
-        ),
-        const PopupMenuItem<String>(
-          value: 'option2',
-          child: Text('add offer'),
-        ),
-        const PopupMenuItem<String>(
-          value: 'option3',
-          child: Text('add to hot Selling'),
-        ),
-      ],
-      onSelected: (String result) {
-        switch (result) {
-          case 'option2':
-            navigateTo(
-                context,
-                AddOfferToProductScreen(
-                  productsIds: [HomeCubit.get(context).products[index].sId!],
-                ));
-            break;
-          case 'option3':
-            addToHotSelling(HomeCubit.get(context).products[index].sId!);
-            break;
-          default:
-            // Do something when an option is selected
-            break;
-        }
       },
     );
   }

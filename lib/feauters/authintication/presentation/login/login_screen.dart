@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:merchant_app/core/resources/constants_manager.dart';
 import 'package:merchant_app/feauters/authintication/domin/request/login_request.dart';
-import 'package:merchant_app/feauters/authintication/domin/response/login_response.dart';
 import 'package:merchant_app/feauters/authintication/presentation/login/login_cubit/login_cubit.dart';
+import 'package:merchant_app/feauters/layouts/home_leyout/home_layout_screen.dart';
 
 import '../../../../core/components/button.dart';
 import '../../../../core/components/text_button.dart';
@@ -18,7 +18,6 @@ import '../../../../core/resources/fonts_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/resources/values_manager.dart';
 
-import '../../../home/presentation/home_screen.dart';
 import '../register/register_screen.dart';
 import 'login_cubit/login_states.dart';
 
@@ -45,149 +44,154 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: BlocProvider(
         create: (context) => LoginCubit(),
-        child:
-            BlocConsumer<LoginCubit, LoginStates>(listener: (context, state) {
-          if (state is LoginDoneState) {
-            if (state.loginResponse.status!) {
-              showToast(text: state.loginResponse.message!, state: ToastStates.SUCCESS);
-              CacheHelper.saveData(
-                key: CacheHelperKeys.token,
-                value: state.loginResponse.data?.token,
-              ).then(
-                    (value) {
-                  Constants.token = state.loginResponse.data!.token!;
-
-                },
-              );
-              CacheHelper.saveData(
-                key: CacheHelperKeys.email,
-                value: state.loginResponse.data?.user?.email,
-              ).then(
-                    (value) {
-                  Constants.email = state.loginResponse.data!.user!.email!;
-
-                },
-              );
-              CacheHelper.saveData(
-                key: CacheHelperKeys.fullName,
-                value: state.loginResponse.data?.user?.fullName,
-              ).then(
-                    (value) {
-                  Constants.email = state.loginResponse.data!.user!.fullName!;
-
-                },
-              );
-              CacheHelper.saveData(
-                key: CacheHelperKeys.sId,
-                value: state.loginResponse.data?.user?.sId,
-              ).then(
-                    (value) {
-                  Constants.email = state.loginResponse.data!.user!.sId!;
-
-                },
-              );
-              navigateAndFinish(context, HomeScreen());
-            }else{
-              showToast(text:state.loginResponse.message!, state: ToastStates.ERROR);
+        child: BlocConsumer<LoginCubit, LoginStates>(
+          listener: (context, state) {
+            if (state is LoginDoneState) {
+              if (state.loginResponse.status!) {
+                showToast(
+                    text: state.loginResponse.message!,
+                    state: ToastStates.SUCCESS);
+                CacheHelper.saveData(
+                  key: CacheHelperKeys.token,
+                  value: state.loginResponse.data?.token,
+                ).then(
+                  (value) {
+                    Constants.token = state.loginResponse.data!.token!;
+                    print('Check Token:');
+                    print(Constants.token);
+                    print('Check Token: 4');
+                    print(state.loginResponse.data!.token!);
+                  },
+                );
+                CacheHelper.saveData(
+                  key: CacheHelperKeys.email,
+                  value: state.loginResponse.data?.user?.email,
+                ).then(
+                  (value) {
+                    Constants.email = state.loginResponse.data!.user!.email!;
+                  },
+                );
+                CacheHelper.saveData(
+                  key: CacheHelperKeys.fullName,
+                  value: state.loginResponse.data?.user?.fullName,
+                ).then(
+                  (value) {
+                    Constants.email = state.loginResponse.data!.user!.fullName!;
+                  },
+                );
+                CacheHelper.saveData(
+                  key: CacheHelperKeys.sId,
+                  value: state.loginResponse.data?.user?.sId,
+                ).then(
+                  (value) {
+                    Constants.email = state.loginResponse.data!.user!.sId!;
+                  },
+                );
+                navigateAndFinish(context, const HomeLayoutScreen());
+              } else {
+                showToast(
+                    text: state.loginResponse.message!,
+                    state: ToastStates.ERROR);
+              }
             }
-
-          }
-        }, builder: (context, state) {
-          return Center(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(AppPadding.p12),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "welcome back",
-                        style: TextStyle(
-                          color: ColorManager.primary,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
+          },
+          builder: (context, state) {
+            return Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppPadding.p12),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "welcome back",
+                          style: TextStyle(
+                            color: ColorManager.primary,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: AppSize.s40,
-                      ),
-                      TFF(
-                        controller: fullNameOrEmailController,
-                        label: 'Name or Email',
-                        prefixIcon: Icons.email_outlined,
-                        validator: (String value) {
-                          if (value.isEmpty) {
-                            return 'Name Must not be empty';
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: AppSize.s18,
-                      ),
-                      TFF(
-                        controller: passwordController,
-                        isPassword: isPassword,
-                        label: 'Password',
-                        prefixIcon: Icons.lock_open_outlined,
-                        suffix: isPassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        suffixPressed: () {
-                          setState(() {
-                            isPassword = !isPassword;
-                          });
-                        },
-                        validator: (String value) {
-                          if (value.isEmpty) {
-                            return 'Password Must not be empty';
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: AppSize.s18,
-                      ),
-                      DefaultButton(
-                        function: () {
-                          if (formKey.currentState!.validate()) {
-                            loginRequest.nameOrEmail =
-                                fullNameOrEmailController.text.trim();
-                            loginRequest.password = passwordController.text;
-                            LoginCubit.get(context)
-                                .login(loginRequest: loginRequest);
-                          }
-                        },
-                        text: 'Login',
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Don\'t have an account? ',
-                            style: getRegularStyle(
-                              fontSize: FontSize.s14,
-                              color: ColorManager.primary,
+                        const SizedBox(
+                          height: AppSize.s40,
+                        ),
+                        TFF(
+                          controller: fullNameOrEmailController,
+                          label: 'Name or Email',
+                          prefixIcon: Icons.email_outlined,
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return 'Name Must not be empty';
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: AppSize.s18,
+                        ),
+                        TFF(
+                          controller: passwordController,
+                          isPassword: isPassword,
+                          label: 'Password',
+                          prefixIcon: Icons.lock_open_outlined,
+                          suffix: isPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          suffixPressed: () {
+                            setState(() {
+                              isPassword = !isPassword;
+                            });
+                          },
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return 'Password Must not be empty';
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: AppSize.s18,
+                        ),
+                        DefaultButton(
+                          function: () {
+                            if (formKey.currentState!.validate()) {
+                              loginRequest.nameOrEmail =
+                                  fullNameOrEmailController.text.trim();
+                              loginRequest.password = passwordController.text;
+                              LoginCubit.get(context)
+                                  .login(loginRequest: loginRequest);
+                            }
+                          },
+                          text: 'Login',
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Don\'t have an account? ',
+                              style: getRegularStyle(
+                                fontSize: FontSize.s14,
+                                color: ColorManager.primary,
+                              ),
                             ),
-                          ),
-                          DTextButton(
-                            text: 'Register',
-                            function: () {
-                              print('Register Now===');
-                              navigateAndFinish(
-                                  context, const RegisterScreen());
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                            DTextButton(
+                              text: 'Register',
+                              function: () {
+                                print('Register Now===');
+                                navigateAndFinish(
+                                    context, const RegisterScreen());
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }

@@ -27,4 +27,11 @@ class GetSingleOrderByIdDoneState extends OrdersStates {}
 
 class GetSingleOrderByIdErrorState extends OrdersStates {}
 
+// Change Order State States:
+
+class ChangeOrderStatusLoadingState extends OrdersStates {}
+
+class ChangeOrderStatusDoneState extends OrdersStates {}
+
+class ChangeOrderStatusErrorState extends OrdersStates {}
 

@@ -8,7 +8,7 @@ class HomeInitialState extends HomeStates {}
 class GetMerchantProLoadingState extends HomeStates {}
 
 class GetMerchantProDoneState extends HomeStates {
-  final List<Products>? products;
+  final List<Product>? products;
 
   GetMerchantProDoneState({this.products});
 }

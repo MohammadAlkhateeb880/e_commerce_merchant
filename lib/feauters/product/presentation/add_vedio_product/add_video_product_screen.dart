@@ -12,8 +12,8 @@ import '../../../../core/resources/values_manager.dart';
 import '../add_image_product/add_image_product_screen.dart';
 
 class AddVideoProductScreen extends StatefulWidget {
-  const AddVideoProductScreen({Key? key}) : super(key: key);
-
+  const AddVideoProductScreen({Key? key, required this.idProduct}) : super(key: key);
+  final String idProduct;
   @override
   State<AddVideoProductScreen> createState() => _AddVideoProductScreenState();
 }
@@ -28,7 +28,7 @@ class _AddVideoProductScreenState extends State<AddVideoProductScreen> {
       child: BlocConsumer<AddVideoProductCubit, AddVideoProductStates>(
         listener: (context, state) {
           if (state is AddVideoProductDoneState) {
-            navigateTo(context, AddImageProductScreen());
+            // navigateTo(context, AddImageProductScreen());
           }
         },
         builder: (context, state) {
@@ -73,7 +73,7 @@ class _AddVideoProductScreenState extends State<AddVideoProductScreen> {
                         if (fileVideoPath != null) {
                           cubit.addVideoProduct(
                               fileVideoPath: fileVideoPath,
-                              id: '64623c60d50f6f303d1aef06');
+                              id: widget.idProduct);
                         }else{
                           showToast(text: 'select video', state: ToastStates.WARNING);
                         }

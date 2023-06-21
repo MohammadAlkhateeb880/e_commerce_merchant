@@ -7,6 +7,7 @@ import 'package:merchant_app/feauters/product/presentation/add_image_product/add
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/config/urls.dart';
 import '../../../../../core/data/network/remote/dio_helper.dart';
+import '../../../../../core/resources/constants_manager.dart';
 import '../../../domin/add_product/response/add_image_response.dart';
 
 class AddImageProductCubit extends Cubit<AddImageProductStates> {
@@ -53,8 +54,7 @@ class AddImageProductCubit extends Cubit<AddImageProductStates> {
           url: Urls.addImageProduct + id.toString(),
           data: formData,
           //contentType: "multipart/form-data",
-          token: "Bearer " +
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDMxNzBjOTFkMzI1NmM5YzdhYjA1NDAiLCJyb2xlIjoyLCJpYXQiOjE2ODA5NjE3Mzd9.ZQ0S6vT_wHH0w0kspiaHz0c4AT9_SaJlj3WkJ2cFc3g",
+          token:  Constants.bearer + Constants.token,
         );
 
         if (response.data['status'] == true) {

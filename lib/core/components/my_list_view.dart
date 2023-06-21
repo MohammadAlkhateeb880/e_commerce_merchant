@@ -4,13 +4,13 @@ import '../../../core/functions.dart';
 import '../../../core/resources/color_manager.dart';
 import '../../feauters/home/domin/response/get_merchant_response.dart';
 import '../../feauters/home/presentation/home_cubit/widget_home_screen/add_dialog.dart';
-import '../../feauters/product/domin/add_product/response/add_image_response.dart';
 import '../../feauters/product/presentation/add_offer_to_product/add_offer_to_product_screen.dart';
 
 
 
+
 class MyListView extends StatelessWidget {
-  final List<Products> products;
+  final List<Product> products;
   final bool isSelectionMode;
   final Set<int> selectedIndices;
   final Function(int) onProductSelected;

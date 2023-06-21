@@ -20,7 +20,6 @@ class HomeLayoutCubit extends Cubit<HomeLayoutStates> {
   static HomeLayoutCubit get(context) => BlocProvider.of(context);
   int currentIndex = 0;
 
-
   List<Widget> bottomScreens = [
     const ProfileScreen(),
     const AddProductScreen(),
@@ -60,8 +59,7 @@ class HomeLayoutCubit extends Cubit<HomeLayoutStates> {
     emit(GetProfileLoadingState());
     DioHelper.getData(
       url: Urls.getProfile,
-      token:
-          '${Constants.bearer} eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDYyM2FmOGQ1MGY2ZjMwM2QxYWVlZmUiLCJyb2xlIjoyLCJpYXQiOjE2ODQyMzMyNDB9.AVljABOh_rsZg0MTPfCu14qWHxq6vVt7QBqNTkRWzec',
+      token: Constants.bearer +Constants.token,
       //token: Constants.bearer + Constants.token,
     ).then((value) {
       profileResponse = ProfileResponse.fromJson(value.data);
@@ -106,13 +104,12 @@ class HomeLayoutCubit extends Cubit<HomeLayoutStates> {
     required String endDateOfHotSelling,
   }) {
     DioHelper.postData(
-            url: Urls.addToHotSelling +  productId.toString(),
-        token:'Bearer '+ 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM0MmQ2Y2YyMzk5ZDY4ZDBlMTVmNzkiLCJyb2xlIjoyLCJpYXQiOjE2ODEyNDMzMTd9.rL8PQING7nqEdMvTkte_N9qbazKt6u6D2f1DIYCl1Co',
+        url: Urls.addToHotSelling + productId.toString(),
+        token:  Constants.bearer + Constants.token,
         data: {
-          'ToHomeTrend':true,
-          'endDate':endDateOfHotSelling
-        })
-        .then((value) {
+          'ToHomeTrend': true,
+          'endDate': endDateOfHotSelling
+        }).then((value) {
       emit(AddToHotSellingDoneState(message: value.data['message']!));
     }).catchError((error) {
       print(error.toString());

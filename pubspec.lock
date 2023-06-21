@@ -333,6 +333,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  im_stepper:
+    dependency: "direct main"
+    description:
+      name: im_stepper
+      sha256: "84ca411f7c4666cb8762a6dd6eec0353c96c67f674124614263875d0570ca634"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1+1"
   image_picker:
     dependency: "direct main"
     description:
@@ -405,6 +413,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  logger:
+    dependency: "direct main"
+    description:
+      name: logger
+      sha256: "7ad7215c15420a102ec687bb320a7312afd449bac63bfb1c60d9787c27b9767f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   lottie:
     dependency: "direct main"
     description:
@@ -778,6 +794,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.1"
+  wiredash:
+    dependency: "direct main"
+    description:
+      name: wiredash
+      sha256: dd8faa10f2b46292cf4d8596094b158d929aa4f32cc8e7d02a3fa76d091d274d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.7.0"
   xdg_directories:
     dependency: transitive
     description:

@@ -75,7 +75,7 @@ class DioHelper {
   static Future<Response> putData({
     required String url,
     Map<String, dynamic>? query,
-    required Map<String, dynamic> data,
+    Map<String, dynamic>? data,
     String? token,
   }) async {
     dio.options.headers = {
@@ -85,6 +85,19 @@ class DioHelper {
       url,
       queryParameters: query,
       data: data,
+    );
+  }
+  static Future<Response> deleteData({
+    required String url,
+    Map<String, dynamic>? query,
+    String? token,
+  }) async {
+    dio.options.headers = {
+      AUTHORIZATION: token ?? '',
+    };
+    return dio.delete(
+      url,
+      queryParameters: query,
     );
   }
 }

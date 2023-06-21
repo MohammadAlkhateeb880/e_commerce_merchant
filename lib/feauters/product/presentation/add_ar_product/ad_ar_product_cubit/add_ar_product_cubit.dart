@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
 import '../../../../../core/config/urls.dart';
 import '../../../../../core/data/network/remote/dio_helper.dart';
+import '../../../../../core/resources/constants_manager.dart';
 import '../../../domin/add_product/response/add_vr_product_rersponse.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,8 +29,7 @@ class AddARProductCubit extends Cubit<AddARProductStates> {
     DioHelper.postData(
       url: Urls.addARProduct + id.toString(),
       data: formData,
-      token: "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM5NjY1OTE2YTcxNzMyZjY3ZGMyNGQiLCJyb2xlIjoxLCJpYXQiOjE2ODE0ODMzNTN9.JWfyyVsU8fakHV49r3qN5LyFhKwsi5Gzc3rRtDdukj4",
+      token:  Constants.bearer + Constants.token,
     ).then((value) {
       print(value.data['status']);
       addVRProductResponse = AddProductResponse.fromJson(value.data);

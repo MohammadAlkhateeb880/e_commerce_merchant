@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:merchant_app/feauters/profile/widgets_profile/settings_item_widget.dart';
+import 'package:wiredash/wiredash.dart';
 import '../../core/components/button.dart';
 import '../../core/components/default_error.dart';
 import '../../core/components/default_image.dart';
@@ -21,6 +24,8 @@ import '../../core/resources/string_manager.dart';
 import '../../core/resources/styles_manager.dart';
 import '../../core/resources/values_manager.dart';
 import '../authintication/presentation/login/login_screen.dart';
+import '../dispute/presentation/add_dispute.dart';
+import '../dispute/presentation/dispute_screen.dart';
 import '../layouts/domin/response/profile_response.dart';
 import '../layouts/home_leyout/home_layout_cubit/home_layout_cubit.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
@@ -45,7 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _showError = false;
     });
     // Dispatch an event to fetch the profile data
-      await BlocProvider.of<HomeLayoutCubit>(context).getProfile();
+    await BlocProvider.of<HomeLayoutCubit>(context).getProfile();
+
   }
 
   @override
@@ -56,9 +62,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           _showError = true;
         });
-      }else if(state is GetProfileLoadingState){
+      } else if (state is GetProfileLoadingState) {
         setState(() {
-          _showLoading=true;
+          _showLoading = true;
+        });
+      } else if (state is GetProfileDoneState) {
+        setState(() {
+          _showLoading = false;
+          _showError = false;
         });
       }
       // TODO: implement listener
@@ -68,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return const Center(
           child: DefaultError(),
         );
-      }else if(_showLoading){
+      } else if (_showLoading) {
         return const Center(
           child: DefaultLoading(),
         );
@@ -121,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           });
           // Remove uId;
           CacheHelper.removeData(key: CacheHelperKeys.sId).then(
-                (value) {
+            (value) {
               Constants.sId = "";
             },
           );
@@ -157,9 +168,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Conditional.single(
                       context: context,
                       conditionBuilder: (BuildContext context) =>
-                      state is! GetProfileLoadingState,
+                          state is! GetProfileLoadingState,
                       widgetBuilder: (BuildContext context) {
-                        return merchantData(merchantInfo: cubit.profileResponse.data?.user );
+                        return merchantData(
+                            merchantInfo: cubit.profileResponse.data?.user);
                       },
                       fallbackBuilder: (BuildContext context) {
                         return const DefaultLoading();
@@ -177,7 +189,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
-
 
   Widget login2AccountWidget() {
     return Expanded(
@@ -198,7 +209,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
 
   Widget logoutWidget() {
     return Padding(
@@ -232,10 +242,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             : Container(),
                         state is LogoutErrorState
                             ? MText(
-                          text: AppStrings
-                              .somethingsErrorPleaseCheckYourInternet,
-                          maxLines: 2,
-                        )
+                                text: AppStrings
+                                    .somethingsErrorPleaseCheckYourInternet,
+                                maxLines: 2,
+                              )
                             : Container()
                       ],
                     ),
@@ -281,7 +291,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
 
   Widget merchantData({
     User? merchantInfo,
@@ -419,10 +428,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10.0),
-               DefaultImage(
-                  imageUrl:_profile.user!.marketLogo!,
-                  clickable: false,
-                ),
+              DefaultImage(
+                width: 90.0,
+                height: 90.0,
+                imageUrl: _profile.user!.marketLogo!,
+                clickable: true,
+              ),
               const SizedBox(height: 10.0),
               Text(
                 _profile.user!.marketName!,
@@ -471,8 +482,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsetsDirectional.all(AppPadding.p12),
                 decoration: BoxDecoration(
                   color: ColorManager.white,
-                  borderRadius:
-                  BorderRadiusDirectional.circular(AppSize.s8),
+                  borderRadius: BorderRadiusDirectional.circular(AppSize.s8),
                   boxShadow: const [
                     BoxShadow(
                       color: ColorManager.grey,
@@ -493,10 +503,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       iconPath: IconsAssets.order,
                       titleTR: AppStrings.orderHistory,
                     ),
+                    SettingsItemWidget(
+                      onTap: () => handleDisputeHistoryPress(),
+                      iconPath: IconsAssets.order,
+                      titleTR: AppStrings.disputeHistory,
+                    ),
+                    SettingsItemWidget(
+                      onTap: () => handleAddDisputeHistoryPress(),
+                      iconPath: IconsAssets.order,
+                      titleTR: AppStrings.disputedSystem,
+                      withDivider: false,
+                    ),
                     // SettingsItemWidget(
-                    //   onTap: () => handleWishlistPress(),
+                    //   onTap: () {
+                    //     Wiredash.of(context).show();
+                    //     Wiredash.of(context).showPromoterSurvey(force: true);
+                    //     print(Wiredash.of(context).metaData);
+                    //   },
                     //   iconPath: IconsAssets.wishlist,
-                    //   titleTR: AppStrings.wishlist,
+                    //   titleTR: AppStrings.disputedSystem,
+                    //   withDivider: false,
                     // ),
                     // SettingsItemWidget(
                     //   onTap: () => handleLangPress(),
@@ -514,17 +540,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
+
   // Functions:
-
-
 
 // 2. handle Order History Press:
   handleOrderHistoryPress() {
     navigateTo(context, const OrdersScreen());
   }
 
-  // 3. handle Wishlist Press
+//3.handle disputed system
+  handleDisputeHistoryPress() {
+    navigateTo(context, const DisputeScreen());
+  }
 
+  handleAddDisputeHistoryPress() {
+    navigateTo(context, const AddDispute());
+  }
+
+// 4. handle Wishlist Press
 }
 
 class ProfileInfoRow extends StatelessWidget {

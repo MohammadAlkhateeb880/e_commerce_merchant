@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:merchant_app/core/components/button.dart';
+import 'package:merchant_app/core/resources/constants_manager.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
 import 'package:merchant_app/feauters/product/domin/add_product/request/add_image_request.dart';
 import 'package:merchant_app/feauters/product/presentation/add_image_product/add_image_product_cubit/add_image_product_cubit.dart';
@@ -13,10 +14,13 @@ import '../../../../core/components/get_photo_from_gallery.dart';
 import '../../../../core/components/text_button.dart';
 import '../../../../core/components/toast_notifications.dart';
 import '../../../../core/functions.dart';
+import '../../../home/presentation/home_cubit/home_cubit.dart';
 import '../add_delivery_areas/add_delivery_areas_screen.dart';
 
 class AddImageProductScreen extends StatefulWidget {
-  const AddImageProductScreen({Key? key}) : super(key: key);
+  const AddImageProductScreen({Key? key, required this.idProduct})
+      : super(key: key);
+  final String idProduct;
 
   @override
   _AddImageProductScreenState createState() => _AddImageProductScreenState();
@@ -36,6 +40,7 @@ class _AddImageProductScreenState extends State<AddImageProductScreen> {
       body: BlocConsumer<AddImageProductCubit, AddImageProductStates>(
         listener: (context, state) {
           if (state is AddImageProductDoneState) {
+            HomeCubit.get(context).getMerchantProducts(merchantId: Constants.sId);
             if (state.addImageProductResponse.status!) {
               showToast(
                   text: 'Add Images Done Success', state: ToastStates.SUCCESS);
@@ -82,7 +87,7 @@ class _AddImageProductScreenState extends State<AddImageProductScreen> {
                     child: GridView.builder(
                         itemCount: imageFileList!.length,
                         gridDelegate:
-                             const SliverGridDelegateWithFixedCrossAxisCount(
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                                 mainAxisSpacing: AppPadding.p4,
                                 crossAxisSpacing: AppPadding.p4,
                                 crossAxisCount: 3),
@@ -94,39 +99,34 @@ class _AddImageProductScreenState extends State<AddImageProductScreen> {
                         }),
                   ),
                 ),
-                DefaultButton(
-                    text: 'Confirm',
-                    function: () async {
-                      navigateTo(
-                        context,
-                        AddDeliveryAreasScreen(),
-                      );
-                      if (image != null && imageFileList!.isNotEmpty) {
-                        addImageProductRequest.mainImage = image;
-                        addImageProductRequest.gallery = imageFileList;
+                Padding(
+                  padding: const EdgeInsets.all(AppPadding.p8),
+                  child: DefaultButton(
+                      text: 'Confirm',
+                      function: () async {
+                        if (image != null && imageFileList!.isNotEmpty) {
+                          addImageProductRequest.mainImage = image;
+                          addImageProductRequest.gallery = imageFileList;
 
-                        Map<String, dynamic> test =
-                            await addImageProductRequest.toJson(
-                          mainImage: addImageProductRequest.mainImage,
-                          gallery: addImageProductRequest.gallery,
-                        );
-                        print(' _++++++++++++++++++ ___++++++++');
-                        print(test);
+                          Map<String, dynamic> test =
+                              await addImageProductRequest.toJson(
+                            mainImage: addImageProductRequest.mainImage,
+                            gallery: addImageProductRequest.gallery,
+                          );
+                          print(' _++++++++++++++++++ ___++++++++');
+                          print(test);
 
-                        cubit.addImageProduct(
-                          addImageProductRequest: addImageProductRequest,
-                          id: '6456666fb99083c1d94e8c4e',
-                        );
-                      }
-                    }),
+                          cubit.addImageProduct(
+                            addImageProductRequest: addImageProductRequest,
+                            id: widget.idProduct,
+                          );
+                        }
+                      }),
+                ),
               ],
             ),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.check),
-        onPressed: () {},
       ),
     );
   }
@@ -144,7 +144,7 @@ class _AddImageProductScreenState extends State<AddImageProductScreen> {
         imageFileList!.replaceRange(
             0,
             3,
-            selectedImages.map((image) {
+                selectedImages.map((image) {
               return File(image.path);
             }).toList());
       } else {
@@ -154,7 +154,6 @@ class _AddImageProductScreenState extends State<AddImageProductScreen> {
         }).toList());
       }
     }
-    print("Image List Length:" + imageFileList!.length.toString());
     setState(() {});
-   }
+  }
 }

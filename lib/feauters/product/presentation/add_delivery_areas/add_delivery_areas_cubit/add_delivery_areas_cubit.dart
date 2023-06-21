@@ -6,6 +6,7 @@ import 'package:merchant_app/feauters/product/presentation/add_delivery_areas/ad
 
 import '../../../../../core/config/urls.dart';
 import '../../../../../core/data/network/remote/dio_helper.dart';
+import '../../../../../core/resources/constants_manager.dart';
 
 class AddDeliveryAreasCubit extends Cubit<AddDeliveryAreasStates> {
   AddDeliveryAreasCubit() : super(AddDeliveryAreasInitState());
@@ -21,8 +22,7 @@ class AddDeliveryAreasCubit extends Cubit<AddDeliveryAreasStates> {
     DioHelper.postData(
       url: Urls.addDeliveryAreasToProduct + id.toString(),
       data: addDeliveryAreasRequest.toJson(),
-      token: "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM5NjY1OTE2YTcxNzMyZjY3ZGMyNGQiLCJyb2xlIjoxLCJpYXQiOjE2ODE0ODMzNTN9.JWfyyVsU8fakHV49r3qN5LyFhKwsi5Gzc3rRtDdukj4",
+      token: Constants.bearer + Constants.token,
     ).then((value) {
       print('Add Here:');
       print(value.data['status']);

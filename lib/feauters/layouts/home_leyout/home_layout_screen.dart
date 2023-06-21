@@ -8,6 +8,7 @@ import 'package:merchant_app/feauters/home/presentation/home_cubit/home_cubit.da
 import 'package:merchant_app/feauters/layouts/home_leyout/result_search.dart';
 import '../../../core/components/text_form_field.dart';
 import '../../../core/functions.dart';
+import '../../../core/resources/constants_manager.dart';
 import '../../home/domin/request/advanced_search_request.dart';
 import '../../home/domin/response/get_merchant_response.dart';
 import 'home_layout_cubit/home_layout_cubit.dart';
@@ -53,14 +54,15 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
         IconButton(
           onPressed: () {
             showSearch(
-              context: context,
+                context: context,
                 delegate: DataSearch(products: cubit.products));
           },
           icon: const Icon(
             Icons.search,
             color: Colors.white,
           ),
-        )
+        ),
+
 
         /* PopupMenuButton<String>(
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -90,8 +92,8 @@ class DataSearch extends SearchDelegate<String> {
   DataSearch({required this.products});
 
   AdvancedSearchRequest advancedSearchRequest = AdvancedSearchRequest(name: '');
-  List<Products> products;
-  List<Products> filteredProducts = [];
+  List<Product> products;
+  List<Product> filteredProducts = [];
 
   @override
   List<Widget> buildActions(BuildContext context) {

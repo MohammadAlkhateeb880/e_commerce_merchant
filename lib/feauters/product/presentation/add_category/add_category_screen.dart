@@ -132,6 +132,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                             enName: enNameCategoryController.text,
                             imageName: imageCategoryController.text,
                             imageOfCate: imageOfCategory!,
+                            context: context,
                           );
                         }
                       },

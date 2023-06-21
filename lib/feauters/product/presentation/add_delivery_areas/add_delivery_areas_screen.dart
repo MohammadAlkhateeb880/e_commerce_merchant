@@ -14,8 +14,8 @@ import '../../../../core/functions.dart';
 import '../add_vr_product/add_vr_product_screen.dart';
 
 class AddDeliveryAreasScreen extends StatefulWidget {
-  const AddDeliveryAreasScreen({Key? key}) : super(key: key);
-
+  const AddDeliveryAreasScreen({Key? key, required this.idProduct}) : super(key: key);
+  final String idProduct;
   @override
   _AddDeliveryAreasScreenState createState() => _AddDeliveryAreasScreenState();
 }
@@ -49,15 +49,11 @@ class _AddDeliveryAreasScreenState extends State<AddDeliveryAreasScreen> {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add),
               onPressed: () {
-                navigateTo(
-                  context,
-                  AddVRProductScreen(),
-                );
                 if (areas.isNotEmpty) {
                   addDeliveryAreasRequest.areas = areas;
                   cubit.addDeliveryAreas(
                       addDeliveryAreasRequest: addDeliveryAreasRequest,
-                      id: '644e53ddba14d7b6e090e059');
+                      id: widget.idProduct);
                 }
               },
             ),

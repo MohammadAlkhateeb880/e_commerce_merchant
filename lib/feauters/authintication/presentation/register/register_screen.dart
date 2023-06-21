@@ -122,6 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         TFF(
                           controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
                           label: 'Email',
                           prefixIcon: Icons.email_outlined,
                           validator: (String value) {

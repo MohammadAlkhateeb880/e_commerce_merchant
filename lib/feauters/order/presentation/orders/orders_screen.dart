@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:flutter_dismissible_tile/flutter_dismissible_tile.dart';
+import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:merchant_app/core/components/toast_notifications.dart';
 import '../../../../core/components/button.dart';
 import '../../../../core/components/default_loading.dart';
 import '../../../../core/components/my_text.dart';
@@ -28,6 +29,7 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
+  int index = 0;
   @override
   void initState() {
     super.initState();
@@ -106,14 +108,60 @@ class _OrdersScreenState extends State<OrdersScreen> {
     );
   }
 
+  List<String> status = [
+    "pending",
+    "processing",
+    "shipped",
+    "delivered",
+    "cancelled"
+  ];
+  bool checkDone = false;
+  bool checkLoading = false;
+  bool checkError = false;
+  bool boolean = false;
+  String? ss;
 
   Widget buildOrderItem({required OrderData orderData}) {
-
-
-
+    var cubit = OrdersCubit.get(context);
 
     return Column(
       children: [
+        Container(
+          height: 60.0,
+          child: BlocConsumer<OrdersCubit, OrdersStates>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              //her check if merchant cancelled order
+              return IconStepper(
+                activeStepBorderWidth: 1.5,
+                lineLength: 20.0,
+                stepPadding: 0.0,
+                activeStepBorderColor: Colors.black54,
+                stepColor: Colors.white60,
+                activeStepColor: Colors.white,
+                lineColor: Colors.amber,
+                enableNextPreviousButtons: false,
+                icons: const [
+                  Icon(Icons.pending_outlined),
+                  Icon(Icons.flag),
+                  Icon(Icons.local_shipping_outlined),
+                  Icon(Icons.delivery_dining),
+                  Icon(Icons.cancel_outlined),
+                ],
+                activeStep: status.indexOf(orderData.status!),
+                onStepReached: (index) {
+                  setState(() {
+                    cubit.changeOrderStates(
+                        orderId: orderData.sId!, status: status[index]);
+                    orderData.status = status[index];
+                  });
+
+                  print(index);
+                },
+              );
+            },
+          ),
+        ),
         GestureDetector(
           onTap: () {
             navigateTo(
@@ -127,8 +175,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             child: Container(
               margin: const EdgeInsetsDirectional.symmetric(
                   horizontal: AppMargin.m8, vertical: AppMargin.m8),
-              decoration:
-              getDeco(color: ColorManager.white, withShadow: true),
+              decoration: getDeco(color: ColorManager.white, withShadow: true),
               child: Column(
                 children: [
                   PairWidget(
@@ -139,19 +186,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   PairWidget(
                     label: AppStrings.orderLocation,
                     value:
-                    '${orderData.shippingAddress?.country} - ${orderData.shippingAddress?.city} - ${orderData.shippingAddress?.region}',
+                        '${orderData.shippingAddress?.country} - ${orderData.shippingAddress?.city} - ${orderData.shippingAddress?.region}',
                     notTR: true,
                   ),
                   PairWidget(
                     label: AppStrings.streetNumber,
-                    value:
-                    orderData.shippingAddress?.streetNumber.toString(),
+                    value: orderData.shippingAddress?.streetNumber.toString(),
                     notTR: true,
                   ),
                   PairWidget(
                     label: AppStrings.houseNumber,
-                    value:
-                    orderData.shippingAddress?.houseNumber.toString(),
+                    value: orderData.shippingAddress?.houseNumber.toString(),
                     notTR: true,
                   ),
                   PairWidget(

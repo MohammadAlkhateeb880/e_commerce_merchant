@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:merchant_app/core/components/default_error.dart';
 import 'package:merchant_app/core/components/default_loading.dart';
 import 'package:merchant_app/core/resources/color_manager.dart';
+import 'package:merchant_app/core/resources/constants_manager.dart';
 
+import '../../../core/components/build_popup_menu_button.dart';
 import '../../../core/components/button.dart';
+import '../../../core/components/default_image.dart';
 import '../../../core/components/text_form_field.dart';
 import '../../../core/resources/values_manager.dart';
 import '../../home/domin/request/advanced_search_request.dart';
@@ -30,7 +33,7 @@ class _ResultSearchState extends State<ResultSearch> {
   void initState() {
     super.initState();
     HomeCubit.get(context).advancedSearch(
-        ownerId: '64623af8d50f6f303d1aeefe',
+        ownerId: Constants.sId,
         advancedSearchRequest: AdvancedSearchRequest(name: widget.query));
   }
 
@@ -49,7 +52,7 @@ class _ResultSearchState extends State<ResultSearch> {
     var cubit = HomeCubit.get(context);
     var addProductionCubit = AddProductionCubit.get(context);
     //her is warning check if language is english and replace category.arName with category.enName
-    categories = addProductionCubit.arCategories;
+    categories = addProductionCubit.enCategories;
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -123,7 +126,7 @@ class _ResultSearchState extends State<ResultSearch> {
                                 : selectedColor;
                             advancedSearchRequest.homePage = isCheckBoxChecked;
                             cubit.advancedSearch(
-                                ownerId: '64623af8d50f6f303d1aeefe',
+                                ownerId: Constants.sId,
                                 advancedSearchRequest: advancedSearchRequest);
                           });
                         },
@@ -189,7 +192,7 @@ class _ResultSearchState extends State<ResultSearch> {
                                               isCheckBoxChecked;
                                           cubit.advancedSearch(
                                               ownerId:
-                                              '64623af8d50f6f303d1aeefe',
+                                              Constants.sId,
                                               advancedSearchRequest:
                                               advancedSearchRequest);
                                           Navigator.pop(context);
@@ -275,7 +278,7 @@ class _ResultSearchState extends State<ResultSearch> {
                                               isCheckBoxChecked;
                                           cubit.advancedSearch(
                                               ownerId:
-                                              '64623af8d50f6f303d1aeefe',
+                                              Constants.sId,
                                               advancedSearchRequest:
                                               advancedSearchRequest);
                                           Navigator.pop(context);
@@ -371,7 +374,7 @@ class _ResultSearchState extends State<ResultSearch> {
                                                 isCheckBoxChecked;
                                             cubit.advancedSearch(
                                                 ownerId:
-                                                '64623af8d50f6f303d1aeefe',
+                                                Constants.sId,
                                                 advancedSearchRequest:
                                                 advancedSearchRequest);
                                             Navigator.pop(context);
@@ -488,7 +491,7 @@ class _ResultSearchState extends State<ResultSearch> {
                                                     : selectedColor;
                                                 cubit.advancedSearch(
                                                     ownerId:
-                                                    '64623af8d50f6f303d1aeefe',
+                                                    Constants.sId,
                                                     advancedSearchRequest:
                                                     advancedSearchRequest);
                                                 Navigator.pop(context);
@@ -531,6 +534,8 @@ class _ResultSearchState extends State<ResultSearch> {
   }
 
   Widget buildSearchList() {
+    bool isSelectionMode = false;
+    List<int> selectedIndices = [];
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -547,8 +552,52 @@ class _ResultSearchState extends State<ResultSearch> {
                 return ListTile(
                   title: Text(product.name!),
                   subtitle: Text(product.mainCategorie!),
-                  onTap: () {},
+                  leading: DefaultImage(
+                    width: 50.0,
+                    height: 50.0,
+                    imageUrl:product.mainImage,
+                    clickable: true,
+                  ),
+                  trailing: isSelectionMode
+                      ? Checkbox(
+                    value: selectedIndices.contains(index),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value == false) {
+                          selectedIndices.remove(index);
+                          if (selectedIndices.isEmpty) {
+                            isSelectionMode = false;
+                          }
+                        }
+                      });
+                    },
+                  )
+                      : buildPopupMenuButton(context, index),
+                  onTap: () {
+                    if (isSelectionMode) {
+                      setState(() {
+                        if (selectedIndices.contains(index)) {
+                          selectedIndices.remove(index);
+                        } else {
+                          selectedIndices.add(index);
+                        }
+                        if (selectedIndices.isEmpty) {
+                          isSelectionMode = false;
+                        }
+                      });
+                    }
+                  },
+                  onLongPress: () {
+                    setState(() {
+                      isSelectionMode = true;
+                      selectedIndices.add(index);
+                    });
+                  },
+                  selected: isSelectionMode &&
+                      selectedIndices.contains(index),
+
                 );
+
               },
             ),
           );

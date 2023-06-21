@@ -32,6 +32,9 @@ dependencies:
   photo_view: ^0.14.0
   flutter_dismissible_tile: ^1.0.2
   flutter_svg: ^1.1.5
+  im_stepper: ^1.0.1+1
+  wiredash: ^1.7.0
+  logger: ^1.2.0
 
 
 

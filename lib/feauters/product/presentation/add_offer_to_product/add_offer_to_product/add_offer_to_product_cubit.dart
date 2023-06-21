@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/config/urls.dart';
 import '../../../../../core/data/network/remote/dio_helper.dart';
+import '../../../../../core/resources/constants_manager.dart';
 import '../../../domin/add_product/response/add_offer_to_product_response.dart';
 
 part 'add_offer_to_product_state.dart';
@@ -19,8 +20,7 @@ class AddOfferToProductCubit extends Cubit<AddOfferToProductStates> {
     DioHelper.postData(
       url: Urls.addOfferProduct,
       data: addOfferToProductsRequest.toJson(),
-      token: "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDYyM2FmOGQ1MGY2ZjMwM2QxYWVlZmUiLCJyb2xlIjoyLCJpYXQiOjE2ODQyMzMyNDB9.AVljABOh_rsZg0MTPfCu14qWHxq6vVt7QBqNTkRWzec",
+      token:  Constants.bearer + Constants.token,
     ).then((value) {
       if(value.data['status']){
         addOfferToProductsResponse=AddOfferToProductsResponse.fromJson(value.data);

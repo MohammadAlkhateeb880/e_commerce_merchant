@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:merchant_app/core/resources/constants_manager.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/config/urls.dart';
@@ -17,24 +18,20 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of(context);
 
   GetMerchantResponse getMerchantResponse = GetMerchantResponse();
-  List<Products> products = [];
-
+  List<Product> products = [];
 
   getMerchantProducts({
     required String merchantId,
   }) {
     emit(GetMerchantProLoadingState());
-
     DioHelper.getData(
       url: Urls.getMerchantProducts + merchantId,
     ).then((value) {
       getMerchantResponse = GetMerchantResponse.fromJson(value.data);
-      // products=value.data['products'];
-      if (getMerchantResponse.data?.products != null) {
-        products = getMerchantResponse.data!.products!;
-        emit(GetMerchantProDoneState(products: products));
-      }
+       products=getMerchantResponse.data!.products;
+      emit(GetMerchantProDoneState(products: getMerchantResponse.data!.products));
     }).catchError((err) {
+      print('****************');
       print(err.toString());
       emit(GetMerchantProErrorState(err.toString()));
     });
@@ -54,8 +51,7 @@ class HomeCubit extends Cubit<HomeStates> {
           'owner': ownerId,
         },
             url: Urls.advancedSearch,
-            token: 'Bearer ' +
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDYyM2FmOGQ1MGY2ZjMwM2QxYWVlZmUiLCJyb2xlIjoyLCJpYXQiOjE2ODQyMzMyNDB9.AVljABOh_rsZg0MTPfCu14qWHxq6vVt7QBqNTkRWzec',
+            token: Constants.bearer + Constants.token,
             data: advancedSearchRequest.toJson())
         .then((value) {
       if (value.data['status']) {

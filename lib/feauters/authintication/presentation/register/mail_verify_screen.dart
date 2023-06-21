@@ -4,6 +4,7 @@ import 'package:merchant_app/core/components/toast_notifications.dart';
 import 'package:merchant_app/core/resources/constants_manager.dart';
 import 'package:merchant_app/feauters/authintication/presentation/register/register_cubit/register_cubit.dart';
 import 'package:merchant_app/feauters/authintication/presentation/register/register_cubit/register_states.dart';
+import 'package:merchant_app/feauters/layouts/home_leyout/home_layout_screen.dart';
 
 import '../../../../core/components/text_form_field.dart';
 import '../../../../core/data/network/local/cache_helper.dart';
@@ -12,7 +13,6 @@ import '../../../../core/network/local/keys.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/resources/values_manager.dart';
-import '../../../home/presentation/home_screen.dart';
 import '../../domin/request/regester_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,7 +46,6 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
             ).then(
               (value) {
                 Constants.token = state.registerResponse.data!.token!;
-
               },
             );
             CacheHelper.saveData(
@@ -76,7 +75,7 @@ class _MailVerificationScreenState extends State<MailVerificationScreen> {
 
               },
             );
-            navigateAndFinish(context, HomeScreen());
+            navigateAndFinish(context, const HomeLayoutScreen());
           } else {
             showToast(
                 text: state.registerResponse.message!,

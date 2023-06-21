@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../../core/config/urls.dart';
 import '../../../../../core/data/network/remote/dio_helper.dart';
+import '../../../../../core/resources/constants_manager.dart';
 import '../../../domin/response/get_orders_response.dart';
 
 part 'orders_states.dart';
@@ -23,8 +24,8 @@ class OrdersCubit extends Cubit<OrdersStates> {
       query: {
         'merchant_id': merchant_id,
       },
-      url: Urls.getMerchantProducts,
-      token:"Bearer " +"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc2MTY5MmU2ZDVlYTdhMThkNzFiYzEiLCJyb2xlIjoyLCJpYXQiOjE2ODU0NjExODZ9.ogPWoeOTrOokm8CeW5nP-93NNyxXFtJilCLfhaespGA" ,
+      url: Urls.getOrdersForMerchantProducts,
+      token: Constants.bearer +Constants.token,
     ).then((value) {
       if (value.data['status']) {
         getOrdersResponse = GetOrdersResponse.fromJson(value.data);
@@ -48,7 +49,7 @@ class OrdersCubit extends Cubit<OrdersStates> {
     emit(GetSingleOrderByIdLoadingState());
     DioHelper.getData(
       url: Urls.getOrderById + orderId,
-      token:"Bearer " +"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc2MTY5MmU2ZDVlYTdhMThkNzFiYzEiLCJyb2xlIjoyLCJpYXQiOjE2ODU0NjExODZ9.ogPWoeOTrOokm8CeW5nP-93NNyxXFtJilCLfhaespGA" ,
+      token: Constants.bearer+Constants.token,
     ).then((value) {
       if (value.data['status']) {
         singleOrderResponse = SingleOrderResponse.fromJson(value.data);
@@ -57,6 +58,26 @@ class OrdersCubit extends Cubit<OrdersStates> {
     }).catchError((err) {
       print(err.toString());
       emit(GetSingleOrderByIdErrorState());
+    });
+  }
+
+  SingleOrderResponse changStatusOrderResponse = SingleOrderResponse();
+
+  changeOrderStates({required String orderId, required String status}) {
+    emit(ChangeOrderStatusLoadingState());
+    DioHelper.putData(
+            url: Urls.changeOrderStatus,
+            data: {"id": orderId, "status": status},
+            token: Constants.bearer+Constants.token,
+    )
+        .then((value) {
+      if (value.data['status']) {
+        changStatusOrderResponse = SingleOrderResponse.fromJson(value.data);
+        emit(ChangeOrderStatusDoneState());
+      }
+    }).catchError((error) {
+      print(error);
+      emit(ChangeOrderStatusErrorState());
     });
   }
 }
