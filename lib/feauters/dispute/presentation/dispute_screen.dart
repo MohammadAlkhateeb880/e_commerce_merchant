@@ -4,7 +4,7 @@ import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:flutter_dismissible_tile/flutter_dismissible_tile.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:lottie/lottie.dart';
-import 'package:merchant_app/core/components/default_loading.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import 'package:merchant_app/core/components/toast_notifications.dart';
 import 'package:merchant_app/feauters/dispute/domin/response/get_all_dispute_response.dart';
 

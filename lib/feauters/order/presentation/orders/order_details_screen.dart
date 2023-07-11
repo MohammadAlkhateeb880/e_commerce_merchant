@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 
-import '../../../../core/components/default_loading.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import '../../../../core/components/my_text.dart';
 import '../../../../core/resources/string_manager.dart';
 import 'orders_cubit/orders_cubit.dart';

@@ -4,7 +4,7 @@ import 'package:merchant_app/feauters/product/presentation/add_ar_product/ad_ar_
 
 import '../../../../core/components/button.dart';
 import '../../../../core/components/default_error.dart';
-import '../../../../core/components/default_loading.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import '../../../../core/components/git_xfile.dart';
 import '../../../../core/components/toast_notifications.dart';
 import '../../../../core/functions.dart';

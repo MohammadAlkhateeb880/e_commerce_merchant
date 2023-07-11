@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:merchant_app/core/components/default_image.dart';
-import 'package:merchant_app/core/components/default_loading.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import 'package:merchant_app/core/components/text_form_field.dart';
 import 'package:merchant_app/core/components/toast_notifications.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';

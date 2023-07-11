@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
+import 'package:merchant_app/core/components/loading.dart';
 
 import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 import '../resources/values_manager.dart';
-import 'default_loading.dart';
 
 class DefaultButton extends StatelessWidget {
   DefaultButton({
@@ -53,7 +53,7 @@ class DefaultButton extends StatelessWidget {
           );
         },
         fallbackBuilder: (BuildContext context) {
-          return DefaultLoading(
+          return const DefaultLoading(
             xT: 0.0,
             yT: -40.0,
           );

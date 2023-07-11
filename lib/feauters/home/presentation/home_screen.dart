@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:merchant_app/core/components/default_loading.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
 import 'package:merchant_app/feauters/home/presentation/home_cubit/home_cubit.dart';
-import 'package:merchant_app/feauters/home/presentation/home_cubit/widget_home_screen/add_dialog.dart';
-import 'package:merchant_app/feauters/product/presentation/add_image_product/add_image_product_screen.dart';
-import 'package:merchant_app/feauters/product/presentation/add_offer_to_product/add_offer_to_product_screen.dart';
-import 'package:merchant_app/feauters/product/presentation/add_vedio_product/add_video_product_screen.dart';
-import 'package:merchant_app/feauters/product/presentation/add_vr_product/add_vr_product_screen.dart';
 
 import '../../../core/components/build_popup_menu_button.dart';
 import '../../../core/components/default_image.dart';

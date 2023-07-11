@@ -1,4 +1,3 @@
-
 import '../../../domin/add_product/response/add_production_response.dart';
 import '../../../domin/add_product/response/get_categories_response.dart';
 
@@ -23,8 +22,9 @@ class AddProductionErrorState extends AddProductionStates {
 class GetCategoriesLoadingState extends AddProductionStates {}
 
 class GetCategoriesDoneState extends AddProductionStates {
+  final List<CategoryData> data;
 
-  GetCategoriesDoneState();
+  GetCategoriesDoneState({required this.data});
 }
 
 class GetCategoriesErrorState extends AddProductionStates {

@@ -11,7 +11,7 @@ import 'package:merchant_app/feauters/product/presentation/add_product/add_produ
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:merchant_app/feauters/product/presentation/add_product/add_product_cubit/add_product_states.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../../../../core/components/default_loading.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import '../../../../core/components/text_form_field.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../domin/add_product/request/add_production_request.dart';

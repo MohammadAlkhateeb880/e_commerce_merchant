@@ -54,7 +54,7 @@ class AddProductionCubit extends Cubit<AddProductionStates> {
       enCategories = categories.map((category) => category.enName).toList();
       enCategories.insert(0, "NO Selected");
 
-      emit(GetCategoriesDoneState());
+      emit(GetCategoriesDoneState(data: categories));
     }).catchError((err) {
       print(err.toString());
       emit(GetCategoriesLoadingState());

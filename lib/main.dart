@@ -5,6 +5,7 @@ import 'package:merchant_app/core/network/local/keys.dart';
 import 'package:merchant_app/core/resources/constants_manager.dart';
 import 'package:merchant_app/feauters/authintication/presentation/login/login_screen.dart';
 import 'package:merchant_app/feauters/authintication/presentation/register/register_screen.dart';
+import 'package:merchant_app/feauters/product/presentation/add_category/add_category_cubit/add_category_cubit.dart';
 import 'package:merchant_app/feauters/product/presentation/add_image_product/add_image_product_cubit/add_image_product_cubit.dart';
 import 'package:merchant_app/feauters/product/presentation/add_vedio_product/add_video_product_cubit/add_video_product_cubit.dart';
 import 'core/data/network/local/cache_helper.dart';
@@ -25,12 +26,13 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-  Constants.token = CacheHelper.getData(key: CacheHelperKeys.token);
-  Constants.sId = CacheHelper.getData(key: CacheHelperKeys.sId);
-  Constants.email = CacheHelper.getData(key: CacheHelperKeys.email);
-  Constants.fullName = CacheHelper.getData(key: CacheHelperKeys.fullName);
+  Constants.token = CacheHelper.getData(key: CacheHelperKeys.token) ?? '';
+  Constants.sId = CacheHelper.getData(key: CacheHelperKeys.sId) ?? '';
+  Constants.email = CacheHelper.getData(key: CacheHelperKeys.email) ?? '';
+  Constants.fullName = CacheHelper.getData(key: CacheHelperKeys.fullName) ?? '';
   //Constants.phone = CacheHelper.getData(key: CacheHelperKeys.phone);
 
+  print(Constants.sId);
   runApp(MyApp());
 }
 
@@ -47,6 +49,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
         BlocProvider(create: (BuildContext context) => AddImageProductCubit()),
         BlocProvider(create: (BuildContext context) => OrdersCubit()),
+        BlocProvider(create: (BuildContext context) => AddCategoryCubit()),
         //her is warning replace id with Constant.Id
         BlocProvider(
             create: (BuildContext context) => AddProductionCubit()
@@ -59,8 +62,8 @@ class MyApp extends StatelessWidget {
               HomeCubit()..getMerchantProducts(merchantId: Constants.sId),
         ),
         BlocProvider(
-            create: (context) => DisputeCubit()
-              ..getDisputes(merchant_id: Constants.sId)),
+            create: (context) =>
+                DisputeCubit()..getDisputes(merchant_id: Constants.sId)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

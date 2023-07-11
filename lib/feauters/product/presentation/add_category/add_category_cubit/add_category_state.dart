@@ -14,3 +14,25 @@ class AddCategoryErrorState extends AddCategoryStates {
 
   AddCategoryErrorState(this.err);
 }
+
+// Update Category States:
+class UpdateCategoryLoadingState extends AddCategoryStates {}
+
+class UpdateCategoryDoneState extends AddCategoryStates {}
+
+class UpdateCategoryErrorState extends AddCategoryStates {
+  final String err;
+
+  UpdateCategoryErrorState(this.err);
+}
+
+// Delete Category States:
+class DeleteCategoryLoadingState extends AddCategoryStates {}
+
+class DeleteCategoryDoneState extends AddCategoryStates {}
+
+class DeleteCategoryErrorState extends AddCategoryStates {
+  final String err;
+
+  DeleteCategoryErrorState(this.err);
+}

@@ -8,7 +8,7 @@ import 'package:wiredash/wiredash.dart';
 import '../../core/components/button.dart';
 import '../../core/components/default_error.dart';
 import '../../core/components/default_image.dart';
-import '../../core/components/defualt_loading.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import '../../core/components/my_divider.dart';
 import '../../core/components/my_text.dart';
 import '../../core/components/text_button.dart';

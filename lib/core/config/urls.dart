@@ -1,6 +1,6 @@
 class   Urls {
   static const String baseUrl = '$ip/user/';
-  static const String ip = 'http://192.168.97.143:3000';
+  static const String ip = 'http://192.168.1.114:3000';
   static const String filesUrl = '$ip/api/download?fileName=';
 
   //authentication
@@ -19,6 +19,8 @@ class   Urls {
   static const String addARImageProduct = '${baseUrl}Merchant/addArImageProduct/';
   static const String addOfferProduct = '${baseUrl}Merchant/addOffer';
   static const String addCategories = '${baseUrl}Merchant/addingCategorie';
+  static const String updateCategories = '${baseUrl}Merchant/updateCategorie/';
+  static const String deleteCategories = '${baseUrl}Merchant/deleteCategorie/';
   static const String addToHotSelling = '${baseUrl}Merchant/addToHotSelling/';
   //get api
   static const String getCategories = '${baseUrl}allUsers/getCategorie/';

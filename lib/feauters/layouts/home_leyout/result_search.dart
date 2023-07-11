@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:merchant_app/core/components/default_error.dart';
-import 'package:merchant_app/core/components/default_loading.dart';
-import 'package:merchant_app/core/resources/color_manager.dart';
+import 'package:merchant_app/core/components/loading.dart';
 import 'package:merchant_app/core/resources/constants_manager.dart';
 
 import '../../../core/components/build_popup_menu_button.dart';
@@ -11,7 +10,6 @@ import '../../../core/components/text_form_field.dart';
 import '../../../core/resources/values_manager.dart';
 import '../../home/domin/request/advanced_search_request.dart';
 import '../../home/domin/response/advanced_search_response.dart';
-import '../../home/domin/response/get_merchant_response.dart';
 import '../../home/presentation/home_cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
