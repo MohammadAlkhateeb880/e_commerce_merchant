@@ -90,6 +90,9 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
     return BlocConsumer<AddCategoryCubit, AddCategoryStates>(
       listener: (context, state) {
         if (state is AddCategoryDoneState) {
+          setState(() {});
+          print("---------------------------------------------");
+          print(myList.length);
           showToast(
               text: 'Adding New Category Done', state: ToastStates.SUCCESS);
         }
@@ -223,25 +226,38 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                           ],
                         ),
                       )
-                    : DefaultButton(
-                        function: () async {
-                          if (formKey.currentState!.validate()) {
-                            addCategoryRequest.arName =
-                                arNameCategoryController.text;
-                            addCategoryRequest.enName =
-                                enNameCategoryController.text;
-                            imageCategoryController.text =
-                                imageOfCategory!.path.split('/').last;
-                            AddCategoryCubit.get(context).addCategory(
-                              arName: arNameCategoryController.text,
-                              enName: enNameCategoryController.text,
-                              imageName: imageCategoryController.text,
-                              imageOfCate: imageOfCategory!,
-                              context: context,
-                            );
+                    : BlocConsumer<AddProductionCubit, AddProductionStates>(
+                        listener: (context, state) {
+                          if (state is GetCategoriesDoneState) {
+                            myList = state.data;
+                            setState(() {});
                           }
                         },
-                        text: 'Add Category',
+                        builder: (context, state) {
+                          return DefaultButton(
+                            function: () async {
+                              if (formKey.currentState!.validate()) {
+                                addCategoryRequest.arName =
+                                    arNameCategoryController.text;
+                                addCategoryRequest.enName =
+                                    enNameCategoryController.text;
+                                imageCategoryController.text =
+                                    imageOfCategory!.path.split('/').last;
+                                AddCategoryCubit.get(context).addCategory(
+                                  arName: arNameCategoryController.text,
+                                  enName: enNameCategoryController.text,
+                                  imageName: imageCategoryController.text,
+                                  imageOfCate: imageOfCategory!,
+                                  context: context,
+                                );
+                                AddProductionCubit.get(context)
+                                    .getMerchantCategories(
+                                        merchantId: Constants.sId);
+                              }
+                            },
+                            text: 'Add Category',
+                          );
+                        },
                       )
               ],
             ),
@@ -287,6 +303,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   Widget categoryWidget({required CategoryData data}) {
     return DefaultDismissibleNew(
       function: () {
+        myList.remove(data);
         AddCategoryCubit.get(context).deleteCategory(
           catId: data.sId ?? '',
           context: context,
