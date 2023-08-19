@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:merchant_app/feauters/profile/widgets_profile/settings_item_widget.dart';
-import 'package:wiredash/wiredash.dart';
 import '../../core/components/button.dart';
 import '../../core/components/default_error.dart';
 import '../../core/components/default_image.dart';
@@ -93,13 +92,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 getUserWidget(),
                 MyDivider(margin: 8.0),
-                languageSettings(),
-                MyDivider(
-                  margin: 8.0,
-                  width: getScreenWidth(context) / 3,
-                  alignment: AlignmentDirectional.centerStart,
-                  color: ColorManager.lightPrimary,
-                ),
+                //languageSettings(),
+                // MyDivider(
+                //   margin: 8.0,
+                //   width: getScreenWidth(context) / 3,
+                //   alignment: AlignmentDirectional.centerStart,
+                //   color: ColorManager.lightPrimary,
+                // ),
                 if (cubit.profileResponse.data != null)
                   getProfileInfo(cubit.profileResponse.data!),
               ],
@@ -136,9 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Constants.sId = "";
             },
           );
-          setState(() {
-            login2AccountWidget();
-          });
+
+          navigateAndFinish(context, LoginScreen());
         }
       },
       builder: (context, state) {
@@ -162,9 +160,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     width: 5.0,
                   ),
-                  if (Constants.token.isEmpty || state is LogoutDoneState)
-                    login2AccountWidget()
-                  else
+                  // if (Constants.token.isEmpty || state is LogoutDoneState)
+                  //   login2AccountWidget()
+                  // else
                     Conditional.single(
                       context: context,
                       conditionBuilder: (BuildContext context) =>
@@ -221,9 +219,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             builder: (context) {
               return BlocConsumer<HomeLayoutCubit, HomeLayoutStates>(
                 listener: (context, state) {
-                  if (state is LogoutDoneState) {
-                    Navigator.of(context).pop();
-                  }
+                  // if (state is LogoutDoneState) {
+                  //   Navigator.of(context).pop();
+                  // }
                 },
                 builder: (context, state) {
                   HomeLayoutCubit cubit = HomeLayoutCubit.get(context);

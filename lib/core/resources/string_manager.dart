@@ -61,6 +61,7 @@ class AppStrings {
   static const String paymentStatus = "payment_status";
 
 
+
   //profile
   static const String loginNow2YourAccount = "login_now_2_your_account";
   static const String logout = "logout";
@@ -85,4 +86,14 @@ class AppStrings {
   //disputed
   static const String disputeHistory = "disputed_history";
   static const String addDispute = "disputed_system";
+  //product details
+  static const String vrMode = "vr_mode";
+  static const String arMode = "ar_mode";
+  static const String offers = "offers";
+  static const String mainDescriptions = "main_descriptions";
+  static const String mainCategory = "main_category";
+  static const String productName = "product_name";
+  static const String ownerName = "owner_name";
+  static const String guarantee = "guarantee";
+  static const String manufacturingMaterial = "manufacturing_material";
 }

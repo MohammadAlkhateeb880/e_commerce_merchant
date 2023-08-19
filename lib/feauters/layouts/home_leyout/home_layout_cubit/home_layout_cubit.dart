@@ -10,6 +10,7 @@ import '../../../../core/data/network/local/cache_helper.dart';
 import '../../../../core/data/network/remote/dio_helper.dart';
 import '../../../../core/network/local/keys.dart';
 import '../../../../core/resources/constants_manager.dart';
+import '../../../product/presentation/product_details/product_screen.dart';
 import '../../domin/response/profile_response.dart';
 
 part 'home_layout_states.dart';
@@ -26,7 +27,7 @@ class HomeLayoutCubit extends Cubit<HomeLayoutStates> {
   List<Widget> bottomScreens = [
     const ProfileScreen(),
     const AddProductScreen(),
-    const HomeScreen(),
+     const HomeScreen(),
   ];
   List<AppBar> appBarScreens = [
     AppBar(

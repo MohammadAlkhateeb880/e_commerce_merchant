@@ -13,7 +13,9 @@ import '../../../core/resources/color_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/resources/constants_manager.dart';
+import '../../layouts/home_leyout/home_layout_cubit/home_layout_cubit.dart';
 import '../../product/presentation/add_ar_product/add_ar_product_screen.dart';
+import '../../product/presentation/product_details/details_screen.dart';
 import '../domin/response/get_merchant_response.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,12 +30,20 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSelectionMode = false;
   TextEditingController searchController = TextEditingController();
 
-  Future<void> _fetchProfileData() async {
+  Future<void> _fetchProducts() async {
     // Dispatch an event to fetch the profile data
     await BlocProvider.of<HomeCubit>(context)
         .getMerchantProducts(merchantId: Constants.sId);
   }
 
+  @override
+  void initState() {
+
+     setState(() {
+       HomeLayoutCubit().getProfile();
+     });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +51,13 @@ class _HomeScreenState extends State<HomeScreen> {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
-        if (state is GetMerchantProLoadingState) {
-          return Center(
-            child: DefaultLoading(),
-          );
-        }
-        if (state is GetMerchantProDoneState) {
-          print(state.products);
-        }
+        // if (state is GetMerchantProLoadingState) {
+        //   return Center(
+        //     child: DefaultLoading(),
+        //   );
+        // }
         return RefreshIndicator(
-          onRefresh: _fetchProfileData,
+          onRefresh: _fetchProducts,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(AppPadding.p4),
@@ -62,78 +69,77 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Column(
                   children: <Widget>[
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: cubit.products.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var product = cubit.products[index];
-                        return Column(
-                          children: [
-                            ListTile(
-                              title: Text('${product.name}'),
-                              subtitle:
-                                  Text('${product.manufacturingMaterial}'),
-                              leading: DefaultImage(
-                                width: 50.0,
-                                height: 50.0,
-                                imageUrl: product.mainImage ?? ' ',
-                                clickable: true,
-                              ),
-                              trailing: isSelectionMode
-                                  ? Checkbox(
-                                      value: selectedIndices.contains(index),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value == false) {
-                                            selectedIndices.remove(index);
-                                            if (selectedIndices.isEmpty) {
-                                              isSelectionMode = false;
-                                            }
-                                          }
-                                        });
-                                      },
-                                    )
-                                  : buildPopupMenuButton(context, index),
-                              onTap: () {
-                                if (isSelectionMode) {
-                                  setState(() {
-                                    if (selectedIndices.contains(index)) {
-                                      selectedIndices.remove(index);
-                                    } else {
-                                      selectedIndices.add(index);
-                                    }
+                    for (int index = 0; index < cubit.products.length; index++)
+                      Column(
+                        children: [
+                          ListTile(
+                            title: Text('${cubit.products[index].name}'),
+                            subtitle: Text('${cubit.products[index].manufacturingMaterial}'),
+                            leading: DefaultImage(
+                              width: 50.0,
+                              height: 50.0,
+                              imageUrl: cubit.products[index].mainImage ?? ' ',
+                              clickable: true,
+                            ),
+                            trailing: isSelectionMode
+                                ? Checkbox(
+                              value: selectedIndices.contains(index),
+                              onChanged: (value) {
+                                setState(() {
+                                  if (value == false) {
+                                    selectedIndices.remove(index);
                                     if (selectedIndices.isEmpty) {
                                       isSelectionMode = false;
                                     }
-                                  });
-                                }
-                              },
-                              onLongPress: () {
-                                setState(() {
-                                  isSelectionMode = true;
-                                  selectedIndices.add(index);
+                                  }
                                 });
                               },
-                              selected: isSelectionMode &&
-                                  selectedIndices.contains(index),
-                            ),
-                            MyDivider(
-                              margin: 8.0,
-                              width: getScreenWidth(context) / 1.2,
-                              alignment: AlignmentDirectional.centerStart,
-                              color: ColorManager.lightPrimary,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                            )
+                                : buildPopupMenuButton(context, index),
+                            onTap: () {
+                              navigateTo(
+                                context,
+                                DetailsScreen(
+                                  proId: cubit.products[index].sId,
+                                  mainImageUrl: cubit.products[index].mainImage,
+                                ),
+                              );
+                              if (isSelectionMode) {
+                                setState(() {
+                                  if (selectedIndices.contains(index)) {
+                                    selectedIndices.remove(index);
+                                  } else {
+                                    selectedIndices.add(index);
+                                  }
+                                  if (selectedIndices.isEmpty) {
+                                    isSelectionMode = false;
+                                  }
+                                });
+                              }
+                            },
+                            onLongPress: () {
+                              setState(() {
+                                isSelectionMode = true;
+                                selectedIndices.add(index);
+                              });
+                            },
+                            selected: isSelectionMode && selectedIndices.contains(index),
+                          ),
+                          MyDivider(
+                            margin: 8.0,
+                            width: getScreenWidth(context) / 1.2,
+                            alignment: AlignmentDirectional.centerStart,
+                            color: ColorManager.lightPrimary,
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
             ),
           ),
         );
+
       },
     );
   }

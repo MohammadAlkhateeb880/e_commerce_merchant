@@ -315,6 +315,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
           Stack(
             alignment: AlignmentDirectional.topEnd,
             children: [
+
               Container(
                 height: AppSize.s200,
                 margin: const EdgeInsetsDirectional.all(AppSize.s8),

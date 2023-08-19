@@ -8,10 +8,10 @@ import 'package:merchant_app/feauters/authintication/presentation/register/regis
 import 'package:merchant_app/feauters/product/presentation/add_category/add_category_cubit/add_category_cubit.dart';
 import 'package:merchant_app/feauters/product/presentation/add_image_product/add_image_product_cubit/add_image_product_cubit.dart';
 import 'package:merchant_app/feauters/product/presentation/add_vedio_product/add_video_product_cubit/add_video_product_cubit.dart';
+import 'package:merchant_app/feauters/product/presentation/update_product/update_product_cubit/update_product_cubit.dart';
 import 'core/data/network/local/cache_helper.dart';
 import 'core/data/network/remote/dio_helper.dart';
 import 'core/resources/theme_manager.dart';
-import 'package:wiredash/wiredash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'feauters/authintication/presentation/register/register_cubit/register_cubit.dart';
 import 'feauters/dispute/presentation/dispute_cubit/dispute_cubit.dart';
@@ -20,6 +20,7 @@ import 'feauters/layouts/home_leyout/home_layout_cubit/home_layout_cubit.dart';
 import 'feauters/layouts/home_leyout/home_layout_screen.dart';
 import 'feauters/order/presentation/orders/orders_cubit/orders_cubit.dart';
 import 'feauters/product/presentation/add_product/add_product_cubit/add_product_cubit.dart';
+import 'feauters/product/presentation/product_details/merchant_layout_cubit/merchant_layout_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => AddImageProductCubit()),
         BlocProvider(create: (BuildContext context) => OrdersCubit()),
         BlocProvider(create: (BuildContext context) => AddCategoryCubit()),
-        //her is warning replace id with Constant.Id
+        BlocProvider(create: (BuildContext context) => UpdateProductCubit()),
+        BlocProvider(create: (BuildContext context) => MerchantLayoutCubit()..getMerchantProducts(merchantId:Constants.sId )),
         BlocProvider(
             create: (BuildContext context) => AddProductionCubit()
               ..getMerchantCategories(

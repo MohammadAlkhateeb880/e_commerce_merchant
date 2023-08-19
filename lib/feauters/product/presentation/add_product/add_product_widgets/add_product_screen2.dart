@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:merchant_app/core/components/button.dart';
 import 'package:merchant_app/core/components/toast_notifications.dart';
+import 'package:merchant_app/core/resources/constants_manager.dart';
 import 'package:merchant_app/feauters/product/presentation/add_delivery_areas/add_delivery_areas_screen.dart';
 import 'package:merchant_app/feauters/product/presentation/add_product/add_product_cubit/add_product_cubit.dart';
 import 'package:merchant_app/feauters/product/presentation/add_product/add_product_cubit/add_product_states.dart';
@@ -9,6 +10,7 @@ import '../../../../../core/components/text_button.dart';
 import '../../../../../core/components/text_form_field.dart';
 import '../../../../../core/functions.dart';
 import '../../../../../core/resources/values_manager.dart';
+import '../../../../home/presentation/home_cubit/home_cubit.dart';
 import '../../../domin/add_product/request/add_production_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,7 +39,10 @@ class _AddProductionScreen2State extends State<AddProductionScreen2> {
       create: (context) => AddProductionCubit(),
       child: BlocConsumer<AddProductionCubit, AddProductionStates>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is AddProductionDoneState) {
+            showToast(
+                text: 'Added Product Successfully', state: ToastStates.SUCCESS);
+          }
         },
         builder: (context, state) {
           var cubit = AddProductionCubit.get(context);

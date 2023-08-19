@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:merchant_app/core/resources/color_manager.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
@@ -54,5 +56,25 @@ getDeco({
     ]
         : [],
     image: image,
+  );
+}
+
+
+Color getRandomColor() {
+  Random random = Random();
+  int red = random.nextInt(256);
+  int green = random.nextInt(256);
+  int blue = random.nextInt(256);
+
+  // Check for invalid values
+  if (red.isNaN || red.isInfinite) red = 0;
+  if (green.isNaN || green.isInfinite) green = 0;
+  if (blue.isNaN || blue.isInfinite) blue = 0;
+
+  return Color.fromARGB(
+    255,
+    red,
+    green,
+    blue,
   );
 }

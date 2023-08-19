@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:merchant_app/core/resources/styles_manager.dart';
 import 'package:merchant_app/core/resources/values_manager.dart';
-import 'package:wiredash/wiredash.dart';
 
 import 'color_manager.dart';
 import 'fonts_manager.dart';
@@ -168,9 +167,4 @@ ThemeData getApplicationTheme() {
     ),
   );
 }
-WiredashThemeData getWireDashTheme(){
-  return WiredashThemeData(
-    primaryColor: ColorManager.primary,
-    secondaryColor: Colors.amber,
-  );
-}
+

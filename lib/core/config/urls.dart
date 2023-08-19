@@ -1,6 +1,6 @@
 class   Urls {
   static const String baseUrl = '$ip/user/';
-  static const String ip = 'http://192.168.1.114:3000';
+  static const String ip = 'http://192.168.228.175:3000';
   static const String filesUrl = '$ip/api/download?fileName=';
 
   //authentication
@@ -22,6 +22,9 @@ class   Urls {
   static const String updateCategories = '${baseUrl}Merchant/updateCategorie/';
   static const String deleteCategories = '${baseUrl}Merchant/deleteCategorie/';
   static const String addToHotSelling = '${baseUrl}Merchant/addToHotSelling/';
+  //product Update
+  static const String updateProductInfo = '${baseUrl}Merchant/updateProductInfo/';
+  static const String updateClaccInfo = '${baseUrl}Merchant/updateClassInProductInfo/';
   //get api
   static const String getCategories = '${baseUrl}allUsers/getCategorie/';
   static const String getProfile = '${baseUrl}Merchant/getProfile';
@@ -41,5 +44,14 @@ class   Urls {
   static const String convertResolveDispute = '${baseUrl}Merchant/resolveDispute/';
   static const String sendCommentDispute = '${baseUrl}allUsers/addComment/';
   static const String addDispute = '${baseUrl}allUsers/addDispute';
+
+  // *************** Start One Merchant Feature **************
+  static const String getSinglePro = 'allUsers/Product/';
+  static const String getGalleryProduct = 'allUsers/GalleryProduct/';
+  static const String getVideo4Product = 'allUsers/getProduct/';
+  static const String getVRModel4Product = 'allUsers/getProduct/';
+  static const String getMerchantOffers = 'allUsers/getProduct/';
+  static const String getMerchantProsByCat =
+      'allUsers/CategorieProducts/';
 
 }
